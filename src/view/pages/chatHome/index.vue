@@ -24,7 +24,10 @@
     <div class="chatRight">
       <!-- <router-view></router-view> -->
       <div v-if="showChatWindow">
-        <ChatWindow :frinedInfo="chatWindowInfo"></ChatWindow>
+        <ChatWindow
+          :frinedInfo="chatWindowInfo"
+          @personCardSort="personCardSort"
+        ></ChatWindow>
       </div>
       <div class="showIcon" v-else>
         <span class="iconfont icon-snapchat"></span>
@@ -67,6 +70,20 @@ export default {
       this.personInfo = info;
       this.pcCurrent = info.id;
     },
+    personCardSort(id) {
+      if (id !== this.personList[0].id) {
+        console.log(id);
+        let nowPersonInfo;
+        for (let i = 0; i < this.personList.length; i++) {
+          if (this.personList[i].id == id) {
+            nowPersonInfo = this.personList[i];
+            this.personList.splice(i, 1);
+            break;
+          }
+        }
+        this.personList.unshift(nowPersonInfo);
+      }
+    },
   },
 };
 </script>
@@ -104,7 +121,7 @@ export default {
   }
 
   .chatRight {
-    flex:1;
+    flex: 1;
     padding-right: 30px;
     .showIcon {
       position: absolute;

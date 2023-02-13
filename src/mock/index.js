@@ -53,9 +53,34 @@ let chatMsg1002 = Mock.mock(
             headImg: require("@/assets/img/head_portrait.jpg"),
             name: "大毛是小白",
             time: "09：12 AM",
-            msg: " Same here! Been working project for the past 5 hours despite ofhaving so much to do",
+            msg: " 在吗？",
             chatType: 0, //信息类型，0文字，1图片
             uid: "1001", //uid
+        },
+
+        {
+            headImg: require("@/assets/img/head_portrait1.jpg"),
+            name: "大毛",
+            time: "09：12 AM",
+            msg: " 怎么了？",
+            chatType: 0, //信息类型，0文字，1图片
+            uid: "1002", //uid
+        },
+        {
+            headImg: require("@/assets/img/head_portrait.jpg"),
+            name: "大毛是小白",
+            time: "09：12 AM",
+            msg: "问你个问题",
+            chatType: 0, //信息类型，0文字，1图片, 2文件
+            uid: "1001",
+        },
+        {
+            headImg: require("@/assets/img/head_portrait1.jpg"),
+            name: "大毛",
+            time: "09：12 AM",
+            msg: "别问",
+            chatType: 0, //信息类型，0文字，1图片
+            uid: "1002", //uid
         },
         {
             headImg: require("@/assets/img/head_portrait.jpg"),
@@ -67,30 +92,6 @@ let chatMsg1002 = Mock.mock(
                 imgType: 1, //(1表情，2本地图片)
             },
             uid: "1001",
-        },
-        {
-            headImg: require("@/assets/img/head_portrait1.jpg"),
-            name: "大毛",
-            time: "09：12 AM",
-            msg: " Same here! Been working project for the past 5 hours despite ofhaving so much to do",
-            chatType: 0, //信息类型，0文字，1图片
-            uid: "1002", //uid
-        },
-        {
-            headImg: require("@/assets/img/head_portrait.jpg"),
-            name: "大毛是小白",
-            time: "09：12 AM",
-            msg: "Same here! Been working project for the past 5 hours despite ofhaving so much to do",
-            chatType: 0, //信息类型，0文字，1图片, 2文件
-            uid: "1001",
-        },
-        {
-            headImg: require("@/assets/img/head_portrait1.jpg"),
-            name: "大毛",
-            time: "09：12 AM",
-            msg: "to do",
-            chatType: 0, //信息类型，0文字，1图片
-            uid: "1002", //uid
         },
     ]
 )
@@ -100,7 +101,7 @@ let chatMsg1003 = Mock.mock(
             headImg: require("@/assets/img/head_portrait.jpg"),
             name: "大毛是小白",
             time: "09：12 AM",
-            msg: " 的武器的物权法润滑油它具有就该回家该方法回复观后感防护服哈和规范化发同意头发o",
+            msg: "在干嘛呢",
             chatType: 0, //信息类型，0文字，1图片
             uid: "1001", //uid
         },
@@ -119,7 +120,7 @@ let chatMsg1003 = Mock.mock(
             headImg: require("@/assets/img/head_portrait2.jpg"),
             name: "小毛",
             time: "09：12 AM",
-            msg: " 萨达萨达哇大所多谁打我的是否如果突然核桃油还要加㔿fhaving so much to do",
+            msg: "吃饭",
             chatType: 0, //信息类型，0文字，1图片
             uid: "1002", //uid
         },
@@ -127,7 +128,7 @@ let chatMsg1003 = Mock.mock(
             headImg: require("@/assets/img/head_portrait.jpg"),
             name: "大毛是小白",
             time: "09：12 AM",
-            msg: "盒饭光和热挺好的返回给都发给顿肉肉人工费大概人刮大风个的个",
+            msg: "吃的什么饭",
             chatType: 0, //信息类型，0文字，1图片, 2文件
             uid: "1001",
         },
@@ -135,7 +136,23 @@ let chatMsg1003 = Mock.mock(
             headImg: require("@/assets/img/head_portrait2.jpg"),
             name: "小毛",
             time: "09：12 AM",
-            msg: "frfrgrgtreg gt g fdg dfg drrg f d",
+            msg: "蛋炒饭",
+            chatType: 0, //信息类型，0文字，1图片
+            uid: "1002", //uid
+        },
+        {
+            headImg: require("@/assets/img/head_portrait.jpg"),
+            name: "大毛是小白",
+            time: "09：12 AM",
+            msg: "加蛋了吗？",
+            chatType: 0, //信息类型，0文字，1图片, 2文件
+            uid: "1001",
+        },
+        {
+            headImg: require("@/assets/img/head_portrait2.jpg"),
+            name: "小毛",
+            time: "09：12 AM",
+            msg: "你说呢",
             chatType: 0, //信息类型，0文字，1图片
             uid: "1002", //uid
         },
@@ -143,16 +160,11 @@ let chatMsg1003 = Mock.mock(
             headImg: require("@/assets/img/head_portrait2.jpg"),
             name: "小毛",
             time: "09：12 AM",
-            msg: "qwewqewrr hy jy ju juyj ",
-            chatType: 0, //信息类型，0文字，1图片
-            uid: "1002", //uid
-        },
-        {
-            headImg: require("@/assets/img/head_portrait2.jpg"),
-            name: "小毛",
-            time: "09：12 AM",
-            msg: "dada dw ertgthy j uy",
-            chatType: 0, //信息类型，0文字，1图片
+            msg: require("@/assets/img/emoji/slightly-smiling-face.png"),
+            chatType: 1, //信息类型，0文字，1图片
+            extend: {
+                imgType: 1, //(1表情，2本地图片)
+            },
             uid: "1002", //uid
         },
     ]

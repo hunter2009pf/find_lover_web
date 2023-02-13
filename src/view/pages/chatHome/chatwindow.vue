@@ -201,6 +201,7 @@ export default {
           uid: "1001", //uid
         };
         this.sendMsg(chatMsg);
+        this.$emit('personCardSort', this.frinedInfo.id)
         this.inputMsg = "";
       } else {
         this.$message({

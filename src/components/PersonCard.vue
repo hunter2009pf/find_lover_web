@@ -4,7 +4,7 @@
           <HeadPortrait :imgUrl="personInfo.headImg"></HeadPortrait>
           <div class="info-detail">
             <div class="name">{{ personInfo.name }}</div>
-            <div class="detail">{{ personInfo.lastMsg }}</div>
+            <div class="detail">{{ personInfo.detail }}</div>
           </div>
 
     </div>
