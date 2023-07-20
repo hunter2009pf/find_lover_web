@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <Home></Home>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Home from './view/home.vue'
+import Home from "./view/home.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Home
-  }
-}
+    Home,
+  },
+};
 </script>
 
 <style lang="scss">
@@ -22,8 +22,8 @@ export default {
   font-style: normal;
   font-size: 25px;
   vertical-align: middle;
-  color: rgb(117,120,137);
-  transition: .3s;
+  color: rgb(117, 120, 137);
+  transition: 0.3s;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -35,6 +35,6 @@ export default {
 #app {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(151,157,167);
+  background-color: rgb(151, 157, 167);
 }
 </style>

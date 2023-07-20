@@ -169,8 +169,7 @@ export default {
             this.srcImgList.push(item.msg);
           }
         });
-    this.scrollBottom();
-
+        this.scrollBottom();
       });
     },
     //发送信息
@@ -201,7 +200,7 @@ export default {
           uid: "1001", //uid
         };
         this.sendMsg(chatMsg);
-        this.$emit('personCardSort', this.frinedInfo.id)
+        this.$emit("personCardSort", this.frinedInfo.id);
         this.inputMsg = "";
       } else {
         this.$message({
@@ -245,7 +244,7 @@ export default {
       if (!e || !window.FileReader) return; // 看是否支持FileReader
       let reader = new FileReader();
       reader.readAsDataURL(files); // 关键一步，在这里转换的
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         chatMsg.msg = this.result; //赋值
         _this.srcImgList.push(chatMsg.msg);
       };
@@ -319,6 +318,7 @@ export default {
   position: relative;
 
   .top {
+    padding-top: 10px;
     margin-bottom: 50px;
     &::after {
       content: "";

@@ -94,9 +94,12 @@ export default {
   display: flex;
   .chatLeft {
     width: 280px;
+    background-color: rgb(50, 54, 68);
+    border-radius: 25px 0 0 25px;
     .title {
       color: #fff;
       padding-left: 10px;
+      padding-top: 10px;
     }
     .online-person {
       margin-top: 100px;
@@ -123,6 +126,8 @@ export default {
   .chatRight {
     flex: 1;
     padding-right: 30px;
+    background-color: rgb(50, 54, 68);
+    border-radius: 0 25px 25px 0;
     .showIcon {
       position: absolute;
       top: calc(50% - 150px); /*垂直居中 */
