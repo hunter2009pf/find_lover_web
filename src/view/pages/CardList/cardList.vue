@@ -46,6 +46,7 @@ export default {
 
 <style scoped>
 :deep(.el-carousel__container) {
-  height: calc(100vh - 230px);
+  height: calc(100vh - 130px);
+  min-height: 590px;
 }
 </style>
