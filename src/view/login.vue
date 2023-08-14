@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { getRegister, login } from "../api/getData";
+import { ERROR_MESSAGES } from "../api/index";
 export default {
   data() {
     return {
@@ -111,14 +113,28 @@ export default {
     login() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          // 登录逻辑
-          console.log("登录成功");
-          this.$router.push(
-            {
-              name: "CardList",
-            },
-            () => {}
-          );
+          login({
+            account: this.loginForm.username,
+            password: this.loginForm.password,
+          }).then((res) => {
+            console.log(res);
+            if (res.code == 0) {
+              this.$message({
+                message: "登录成功,即将跳转至主页",
+                type: "success",
+              });
+              setTimeout(() => {
+                this.$router.push({
+                  name: "CardList",
+                });
+              }, 2000);
+            } else {
+              this.$message({
+                message: `${ERROR_MESSAGES[res.code]}`,
+                type: "warning",
+              });
+            }
+          });
         }
       });
     },
@@ -126,7 +142,26 @@ export default {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           // 注册逻辑
-          console.log("注册成功");
+          getRegister({
+            account: this.registerForm.username,
+            password: this.registerForm.password,
+          }).then((res) => {
+            console.log(res);
+            if (res.code == 0) {
+              this.$message({
+                message: "注册成功,即将跳转至登录页",
+                type: "success",
+              });
+              setTimeout(() => {
+                this.isLogin = !this.isLogin;
+              }, 2000);
+            } else {
+              this.$message({
+                message: `${ERROR_MESSAGES[res.code]}`,
+                type: "warning",
+              });
+            }
+          });
         }
       });
     },

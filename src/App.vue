@@ -35,6 +35,27 @@ export default {
 #app {
   width: 100vw;
   height: 100vh;
+  list-style-type: none;
+
   // background-color: rgb(151, 157, 167);
+}
+/* 整个滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* 滚动条上的滚动滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #acacac;
+  /* 关键代码 */
+
+  border-radius: 32px;
+}
+
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+  background-color: #dbeffd1e;
+  border-radius: 32px;
 }
 </style>

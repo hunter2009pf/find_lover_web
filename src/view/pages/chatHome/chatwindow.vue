@@ -163,6 +163,7 @@ export default {
         frinedId: this.frinedInfo.id,
       };
       getChatMsg(params).then((res) => {
+        console.log(res);
         this.chatList = res;
         this.chatList.forEach((item) => {
           if (item.chatType == 2 && item.extend.imgType == 2) {
