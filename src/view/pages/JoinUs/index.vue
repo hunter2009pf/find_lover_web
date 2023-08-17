@@ -1,63 +1,84 @@
 <template>
   <div class="join-us-container">
-    <h1 class="heading">欢迎加入我们</h1>
-    <div class="chat-codes">
-      <div class="chat-code">
-        <div class="code-image">
-          <img src="../../../assets/qrcode.jpg" alt="群聊一" />
-        </div>
-        <div class="code-info">
-          <h3 class="code-title">群聊一</h3>
-          <p class="code-description">扫描二维码加入群聊一</p>
-        </div>
-      </div>
-      <div class="chat-code">
-        <div class="code-image">
-          <img src="../../../assets/qrcode.jpg" alt="群聊二" />
-        </div>
-        <div class="code-info">
-          <h3 class="code-title">群聊二</h3>
-          <p class="code-description">扫描二维码加入群聊二</p>
+    <div class="group-wrap">
+      <div class="vip">
+        <h1>vip群</h1>
+        <div>
+          <img
+            :src="`${base.baseUrl}${data.vipGroup?.photo_url}`"
+            alt=""
+            class="qr-img"
+          />
         </div>
       </div>
-      <div class="chat-code">
-        <div class="code-image">
-          <img src="../../../assets/qrcode.jpg" alt="群聊三" />
+      <div class="free">
+        <h1>免费群</h1>
+        <div>
+          <img
+            :src="`${base.baseUrl}${data.freeGroup?.photo_url}`"
+            alt=""
+            class="qr-img"
+          />
         </div>
-        <div class="code-info">
-          <h3 class="code-title">群聊三</h3>
-          <p class="code-description">扫描二维码加入群聊三</p>
+      </div>
+    </div>
+    <div class="matchmaker">
+      <h1>合肥红娘</h1>
+      <div class="matchmaker-wrap">
+        <div v-for="item in data.hongniangs">
+          <img
+            :src="`${base.baseUrl}${item.photo_url}`"
+            alt=""
+            class="matchmaker-img"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getQrCode } from "../../../api/getData";
+import base from "../../../api/index";
 export default {
   data() {
-    return {};
+    return {
+      data: {},
+      base,
+    };
   },
   methods: {
     setHover(index) {
       this.hover = index;
     },
   },
+  mounted() {
+    getQrCode().then((res) => {
+      console.log(res);
+      this.data = res.data;
+    });
+  },
 };
 </script>
 <style scoped>
 /* 略去其他样式 */
-
-.code-image {
-  width: 200px;
-  height: 200px;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+h1 {
+  text-align: center;
 }
-
-.code-image img {
-  max-width: 100%;
-  max-height: 100%;
+.qr-img {
+  height: 300px;
+}
+.group-wrap {
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.matchmaker-wrap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  padding: 0 150px;
+}
+.matchmaker-img {
+  height: 200px;
 }
 </style>

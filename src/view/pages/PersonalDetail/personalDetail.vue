@@ -4,8 +4,15 @@
       <div class="card">
         <div class="card-left">
           <el-carousel :autoplay="false">
-            <el-carousel-item v-for="image in character.images" :key="image.id">
-              <img :src="image.url" :alt="image.alt" class="carousel-image" />
+            <el-carousel-item
+              v-for="image in personDetail.photo_urls"
+              :key="image.id"
+            >
+              <img
+                :src="`${base.baseUrl}${image}`"
+                :alt="image.alt"
+                class="carousel-image"
+              />
             </el-carousel-item>
           </el-carousel>
           <div class="base-detail">
@@ -15,8 +22,8 @@
               </h2>
               <ul>
                 <li>年龄: {{ personDetail.age }}</li>
-                <li>性别：{{ personDetail.is_boy ? "女" : "男" }}</li>
-                <li>身高：</li>
+                <li>性别：{{ personDetail.is_boy ? "男" : "女" }}</li>
+                <li>身高：{{ personDetail.height }}</li>
                 <li>婚姻状况：{{ personDetail.marry_status }}</li>
               </ul>
             </div>
@@ -50,6 +57,7 @@
     <div v-else>
       <editDetail
         @cancelEditing="cancelEditing"
+        @doneUpload="doneUpload"
         :initialFormData="personDetail"
       />
     </div>
@@ -60,6 +68,7 @@
 import editDetail from "./editDetail.vue";
 import { showType } from "../../../constant/index";
 import { getUserInfo, getMyInfo } from "../../../api/getData";
+import base from "../../../api/index";
 export default {
   components: {
     editDetail,
@@ -68,16 +77,9 @@ export default {
     return {
       showType,
       personDetail: {},
+      base,
       editing: false, // 编辑表单
       character: {
-        name: "John Doe",
-        description: "A fearless adventurer",
-        details: [
-          { id: 1, label: "年龄", value: "30" },
-          { id: 2, label: "性别", value: "Male" },
-          { id: 3, label: "身高", value: "180cm" },
-          { id: 8, label: "Status", value: "Active" },
-        ],
         images: [
           {
             id: 1,
@@ -108,6 +110,12 @@ export default {
       this.editing = false;
       console.log("触发");
       console.log(this.editing);
+    },
+    doneUpload() {
+      getMyInfo().then((res) => {
+        this.personDetail = res.data;
+      });
+      this.editing = false;
     },
   },
   mounted() {
@@ -172,8 +180,8 @@ li {
 }
 
 .carousel-image {
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   object-fit: contain;
   border-radius: 25px;
 }

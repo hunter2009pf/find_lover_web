@@ -1,58 +1,92 @@
 <template>
   <div class="card-container">
     <div class="card">
-      <div
-        v-show="personData.showType === 0 || personData.showType === 2"
-        class="image-container"
-      >
-        <img :src="personData.photoList[0]" alt="人物图片" class="card-image" />
+      <div v-if="personData.show_type == 0">
+        <div class="image-container">
+          <img :src="photoUrl" alt="人物图片" class="card-image" />
+        </div>
+        <div>
+          <div class="no-info">
+            <img
+              src="../../../assets/img/default-img.png"
+              alt=""
+              style="height: 100px; width: 100px"
+            />
+            <div style="color: #80808099">对方隐藏了信息哦</div>
+          </div>
+        </div>
       </div>
-
-      <div v-show="personData.showType === 1 || 2">
-        <h3 class="card-title">{{ personData.nickName }}</h3>
-        <el-divider></el-divider>
-        <div class="card-details">
-          <div class="describe">
-            <p><span class="detail-label">年龄:</span> {{ personData.age }}</p>
-            <p>
-              <span class="detail-label">身高:</span> {{ personData.height }}
-            </p>
-            <!-- <p>
-                <span class="detail-label">体重:</span> {{ personData.weight }}
-              </p> -->
-            <p>
-              <span class="detail-label">职业:</span>
-              {{ personData.job }}
-            </p>
-            <!-- <p>
-                <span class="detail-label">自我介绍:</span>
-                {{ personData.introduction }}
+      <div v-else-if="personData.show_type == 1">
+        <div style="margin-top: 160px">
+          <h3 class="card-title">{{ personData.nick_name }}</h3>
+          <el-divider></el-divider>
+          <div class="card-details">
+            <div class="describe">
+              <p>
+                <span class="detail-label">年龄:</span> {{ personData.age }}
               </p>
               <p>
-                <span class="detail-label">希望的她:</span>
-                {{ personData.expectation }}
-              </p> -->
-          </div>
-          <div class="motto">
-            <div class="divider"></div>
-            <div class="border-wrap"></div>
-            <div class="motto-content">
-              <span
-                >理想中的人：这是测试测试删删除测试测试纯输出测试测试测试测试测试纯输出测试测试测试菜市场上厕所菜市场上厕所</span
-              >
+                <span class="detail-label">身高:</span>
+                {{ personData.height }}
+              </p>
+
+              <p>
+                <span class="detail-label">职业:</span>
+                {{ personData.job }}
+              </p>
+            </div>
+            <div class="motto">
+              <div class="divider"></div>
+              <div class="border-wrap"></div>
+              <div class="motto-content">
+                <span>自我介绍：{{ personData.introduction }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div v-else-if="personData.show_type == 2">
+        <div class="image-container">
+          <img :src="photoUrl" alt="人物图片" class="card-image" />
+        </div>
+        <div>
+          <h3 class="card-title">{{ personData.nick_name }}</h3>
+          <el-divider></el-divider>
+          <div class="card-details">
+            <div class="describe">
+              <p>
+                <span class="detail-label">年龄:</span> {{ personData.age }}
+              </p>
+              <p>
+                <span class="detail-label">身高:</span>
+                {{ personData.height }}
+              </p>
+
+              <p>
+                <span class="detail-label">职业:</span>
+                {{ personData.job }}
+              </p>
+            </div>
+            <div class="motto">
+              <div class="divider"></div>
+              <div class="border-wrap"></div>
+              <div class="motto-content">
+                <span>自我介绍：{{ personData.introduction }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="buttons-container">
         <el-button
           size="small"
           class="like-button"
           icon="el-icon-thumb"
-          :class="{ liked: liked }"
+          :class="liked ? 'liked' : ''"
           @click="toggleLike"
         >
-          点赞
+          喜欢
         </el-button>
         <el-button
           size="small"
@@ -76,38 +110,43 @@
 </template>
 
 <script>
+import { likePeople, dislikePeople } from "../../../api/getData";
+import base from "../../../api/index";
 export default {
   props: {
-    personData: {
-      userID: 0,
-      nickName: "kjhdh",
-      isBoy: false,
-      age: 12,
-      height: 120,
-      weight: 10,
-      job: "软件开发工程师",
-      diploma: "",
-      marriageStatus: "",
-      introduction: "",
-      expectation: "",
-      photoList: [
-        "https://stylesatlife.com/wp-content/uploads/2022/01/Handsome-Ranveer-Singh.jpg.webp",
-      ],
-      showType: 0,
-    },
+    personData: {},
   },
   data() {
     return {
       liked: false,
+      base,
     };
+  },
+  computed: {
+    photoUrl() {
+      return `${this.base.baseUrl}${
+        this.personData?.photo_urls[0] ? this.personData?.photo_urls[0] : ""
+      }`;
+    },
   },
   methods: {
     toggleLike() {
-      this.liked = !this.liked;
+      if (this.liked) {
+        dislikePeople({ idol_id: 6 }).then(() => {
+          this.liked = false;
+        });
+      } else {
+        const formData = new FormData();
+        formData.append("idol_id", 3);
+        likePeople(formData).then(() => {
+          this.liked = true;
+        });
+      }
     },
     openChat() {},
     showDetails() {},
   },
+  mounted() {},
 };
 </script>
 
@@ -133,6 +172,7 @@ export default {
   background-image: url("../../../assets/img/card-bg.jpeg");
   background-size: cover;
   background-position: center;
+  position: relative;
 }
 
 .card:hover {
@@ -140,12 +180,18 @@ export default {
 }
 
 .image-container {
+  height: 185px;
+  width: 185px;
   text-align: center;
+  margin: 0 auto;
 }
 .buttons-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  margin-top: 60px;
+  bottom: 60px;
 }
 
 .liked {
@@ -189,12 +235,14 @@ export default {
 .describe p {
   margin-bottom: 6px;
 }
-/* .divider {
-  height: 100px;
-  position: absolute;
-  left: -12px;
-  border: 1px solid black;
-} */
+.no-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
 .border-wrap {
   position: absolute;
   width: 35px;

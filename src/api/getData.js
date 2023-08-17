@@ -38,7 +38,7 @@ export const login = (params) => {
     params, // 使用params属性传递参数
   }).then((res) => res.data);
 };
-// 根据userid获得个人信息
+// 根据userId获得个人信息
 export const getUserInfo = (params) => {
   return axios({
     method: "get",
@@ -67,8 +67,57 @@ export const postPhotos = (params) => {
 // 移除生活照
 export const delPhoto = (params) => {
   return axios({
-    method: "delete",
-    baseURL: `${baseUrl}/v1/person/uploadPhoto`,
+    method: "post",
+    baseURL: `${baseUrl}/v1/person/deletePhoto`,
+    params,
+  }).then((res) => res.data);
+};
+// 随机查询几个人
+export const getRandomUser = (params) => {
+  return axios({
+    method: "get",
+    baseURL: `${baseUrl}/v1/person/randomGetPeople`,
+    params,
+  }).then((res) => res.data);
+};
+// 更新个人信息
+export const updateInfo = (params) => {
+  return axios({
+    method: "post",
+    baseURL: `${baseUrl}/v1/person/uploadInfo`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: params,
+  }).then((res) => res.data);
+};
+// 喜欢某人
+export const likePeople = (params) => {
+  return axios({
+    method: "post",
+    baseURL: `${baseUrl}/v1/relation/like`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: params,
+  }).then((res) => res.data);
+};
+// 取消喜欢
+export const dislikePeople = (params) => {
+  return axios({
+    method: "post",
+    baseURL: `${baseUrl}/v1/relation/dislike`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    params,
+  }).then((res) => res.data);
+};
+// 获得宣传二维码
+export const getQrCode = (params) => {
+  return axios({
+    method: "get",
+    baseURL: `${baseUrl}/v1/contact/qrcode/get_all`,
     params,
   }).then((res) => res.data);
 };

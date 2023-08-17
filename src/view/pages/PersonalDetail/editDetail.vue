@@ -61,8 +61,8 @@
         </el-form-item>
         <el-form-item label="婚姻状况：" prop="marry_status">
           <el-radio-group v-model="formData.marry_status">
-            <el-radio :label="0">未婚</el-radio>
-            <el-radio :label="1">离异</el-radio>
+            <el-radio label="未婚">未婚</el-radio>
+            <el-radio label="已婚">离异</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="工作：" prop="job">
@@ -129,7 +129,7 @@
 
 <script>
 import { showType } from "../../../constant/index";
-import { postPhotos, delPhoto } from "../../../api/getData";
+import { postPhotos, delPhoto, updateInfo } from "../../../api/getData";
 import base from "../../../api/index";
 
 let baseUrl = base.baseUrl;
@@ -149,7 +149,7 @@ export default {
         birth_place: "",
         current_place: "",
         degree: "",
-        marry_status: 0,
+        marry_status: "未婚",
         job: "",
         house_status: "",
         car_status: "",
@@ -231,9 +231,9 @@ export default {
       console.log(options);
       const { file, onSuccess, onError } = options;
 
-      const formData = new FormData();
-      formData.append("photo", file);
-      postPhotos(formData)
+      const photoFormData = new FormData();
+      photoFormData.append("photo", file);
+      postPhotos(photoFormData)
         .then((response) => {
           onSuccess(response); // 上传成功的回调...
         })
@@ -251,17 +251,18 @@ export default {
         this.photosList = this.photosList.filter((f) => f.url !== file.url); // 从文件列表中移除已删除的文件
       });
     },
-    uploadPhotos(options) {},
-    handleUpload() {
-      // 确认上传，调用接口上传图片...
-    },
 
     submitForm() {
       this.$refs.form.validate((valid) => {
         if (valid) {
           // 在这里进行表单提交操作
+          const infoFormData = new FormData();
+          infoFormData.append("info", JSON.stringify(this.formData));
           console.log(this.formData);
-          // 可以将表单数据提交到后端保存
+          updateInfo(infoFormData).then((res) => {
+            console.log(res);
+            this.$emit("doneUpload");
+          });
         } else {
           console.log("Form validation failed");
         }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Message } from "element-ui";
 export const ERROR_MESSAGES = {
   0: "成功",
   1: "参数为空",
@@ -15,6 +16,10 @@ export const ERROR_MESSAGES = {
   12: "登录信息为空",
   13: "删除照片失败",
   14: "照片过多",
+  15: "无效的token",
+  16: "无效的页码",
+  17: "无jwt Token ",
+  18: "请求次数达到最大",
 };
 //全局参数，自定义参数可在发送请求时设置
 axios.defaults.timeout = 300000000; //超时时间ms
@@ -42,17 +47,23 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     // Do something with response data
-    if (response.data.data?.token) {
-      window.localStorage.setItem("token", response.data.data.token);
+    if (response?.data?.data?.token) {
+      window.localStorage.setItem("token", response.data?.data?.token);
     }
+
     // console.log(response);
-    // if (data.code == "900001") {
+    // if (data.code != 0) {
     //   // token过期
     //   window.localStorage.removeItem("userInfo");
     //   window.localStorage.removeItem("token");
     //   window.location.href = "/login";
     //   return;
     // }
+    if (response.data && response.data.code != 0) {
+      Message.error(ERROR_MESSAGES[response.data.code]);
+      return response;
+    }
+
     return response;
   },
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container Login">
     <el-card class="login-card">
       <div v-show="isLogin">
         <h3>登录</h3>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { getRegister, login } from "../api/getData";
+import { getRegister, login, getMyInfo } from "../api/getData";
 import { ERROR_MESSAGES } from "../api/index";
 export default {
   data() {
@@ -122,6 +122,14 @@ export default {
               this.$message({
                 message: "登录成功,即将跳转至主页",
                 type: "success",
+              });
+              getMyInfo().then((res) => {
+                //存入个人信息
+                console.log(res);
+                window.localStorage.setItem(
+                  "user_info",
+                  JSON.stringify(res.data)
+                );
               });
               setTimeout(() => {
                 this.$router.push({
