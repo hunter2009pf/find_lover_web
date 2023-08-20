@@ -72,91 +72,101 @@ export default {
     });
 
     // ws建连
-    const token = localStorage.getItem("token");
-    this.socket = new WebSocket(
-      "ws://" + chatIP + ":" + chatPort + "/v1/websocket/connect/" + token
-    );
+    if (this.socket == null || this.socket.readyState !== WebSocket.OPEN) {
+      const token = localStorage.getItem("token");
 
-    this.socket.onopen = function (e) {
-      // alert("[open] Connection established");
-      console.log("websocket connected successfully");
-    };
-    let that = this;
-    this.socket.onmessage = async function (event) {
-      var jsonData = JSON.parse(event.data);
-      if (jsonData.main_type == "message") {
-        var newMsg = jsonData.body;
-        if (newMsg.sender == that.pcCurrent) {
-          console.log("当前展示会话层，只更新最后一条消息，不更新未读数");
-          for (let i = 0; i < that.convList.length; i++) {
-            if (that.convList[i].chat_id == newMsg.sender) {
-              that.convList[i].last_message = newMsg;
-              break;
+      this.socket = new WebSocket(
+        "ws://" + chatIP + ":" + chatPort + "/v1/websocket/connect/" + token
+      );
+
+      this.socket.onopen = function (e) {
+        // alert("[open] Connection established");
+        console.log("websocket connected successfully");
+      };
+
+      let that = this;
+      this.socket.onmessage = async function (event) {
+        var jsonData = JSON.parse(event.data);
+        if (jsonData.main_type == "message") {
+          var newMsg = jsonData.body;
+          if (newMsg.sender == that.pcCurrent) {
+            console.log("当前展示会话层，只更新最后一条消息，不更新未读数");
+            for (let i = 0; i < that.convList.length; i++) {
+              if (that.convList[i].chat_id == newMsg.sender) {
+                that.convList[i].last_message = newMsg;
+                break;
+              }
             }
-          }
-          // 收到新消息，会话层移动到顶部
-          that.personCardSort(newMsg.sender);
-        } else {
-          console.log("未展开会话层，更新最后一条消息，未读数+1");
-          var isFound = false;
-          for (let i = 0; i < that.convList.length; i++) {
-            if (that.convList[i].chat_id == newMsg.sender) {
-              that.convList[i].last_message = newMsg;
-              that.convList[i].unread++;
-              isFound = true;
-              break;
-            }
-          }
-          if (!isFound) {
-            // 会话层不存在，说明是新人给我发消息
-            var params = {
-              user_id: newMsg.sender,
-            };
-            var res = await getUserInfo(params);
-            if (res.code == 0) {
-              console.log("user info: ", res);
-              var newPerson = res.data;
-              var newConv = {
-                chat_avatar: newPerson.avatar_url,
-                chat_id: newPerson.user_id,
-                chat_name: newPerson.nick_name,
-                is_group: false,
-                last_message: newMsg,
-                order_key: newMsg.timestamp,
-                unread: 1,
-              };
-              that.convList.unshift(newConv);
-            } else {
-              console.log("没找到人，只能忽略新消息了");
-            }
-          } else {
             // 收到新消息，会话层移动到顶部
             that.personCardSort(newMsg.sender);
+          } else {
+            console.log("未展开会话层，更新最后一条消息，未读数+1");
+            var isFound = false;
+            for (let i = 0; i < that.convList.length; i++) {
+              if (that.convList[i].chat_id == newMsg.sender) {
+                that.convList[i].last_message = newMsg;
+                that.convList[i].unread++;
+                isFound = true;
+                break;
+              }
+            }
+            if (!isFound) {
+              // 会话层不存在，说明是新人给我发消息
+              var params = {
+                user_id: newMsg.sender,
+              };
+              var res = await getUserInfo(params);
+              if (res.code == 0) {
+                console.log("user info: ", res);
+                var newPerson = res.data;
+                var newConv = {
+                  chat_avatar: newPerson.avatar_url,
+                  chat_id: newPerson.user_id,
+                  chat_name: newPerson.nick_name,
+                  is_group: false,
+                  last_message: newMsg,
+                  order_key: newMsg.timestamp,
+                  unread: 1,
+                };
+                that.convList.unshift(newConv);
+              } else {
+                console.log("没找到人，只能忽略新消息了");
+              }
+            } else {
+              // 收到新消息，会话层移动到顶部
+              that.personCardSort(newMsg.sender);
+            }
           }
         }
-      }
-    };
+      };
 
-    this.socket.onclose = function (event) {
-      console.log("websocket close code: ", event.code, "   ", event.reason);
-      if (event.wasClean) {
-        // alert(
-        //   `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
-        // );
-        console.log(
-          `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
-        );
-      } else {
-        // e.g. server process killed or network down
-        // event.code is usually 1006 in this case
-        // alert("[close] Connection died");
-      }
-    };
+      this.socket.onclose = function (event) {
+        console.log("websocket close code: ", event.code, "   ", event.reason);
+        if (event.wasClean) {
+          // alert(
+          //   `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+          // );
+          console.log(
+            `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+          );
+        } else {
+          // e.g. server process killed or network down
+          // event.code is usually 1006 in this case
+          // alert("[close] Connection died");
+        }
+      };
 
-    this.socket.onerror = function (error) {
-      alert(`[error]`);
-    };
+      this.socket.onerror = function (error) {
+        console.log(error);
+        that.$message({
+          message: "websocket连接错误",
+          type: "error",
+          duration: 1000,
+        });
+      };
+    }
   },
+
   methods: {
     clickPerson(info) {
       console.log("click person:");

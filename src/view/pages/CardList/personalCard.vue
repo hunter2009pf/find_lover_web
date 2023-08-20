@@ -82,8 +82,8 @@
         <el-button
           size="small"
           class="like-button"
-          icon="el-icon-thumb"
-          :class="liked ? 'liked' : ''"
+          icon="el-icon-star-off"
+          :class="liked ? 'like-status' : ''"
           @click="toggleLike"
         >
           喜欢
@@ -194,8 +194,9 @@ export default {
   bottom: 60px;
 }
 
-.liked {
-  color: red;
+.like-status {
+  background-color: pink;
+  color: green;
 }
 
 .like-button,

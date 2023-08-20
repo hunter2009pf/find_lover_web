@@ -120,8 +120,9 @@ export default {
             console.log(res);
             if (res.code == 0) {
               this.$message({
-                message: "登录成功,即将跳转至主页",
+                message: "登录成功",
                 type: "success",
+                duration: 1000,
               });
               getMyInfo().then((res) => {
                 //存入个人信息
