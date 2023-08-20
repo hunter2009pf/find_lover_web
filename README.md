@@ -1,4 +1,4 @@
-# chathome
+# Find Lover
 
 ## Project setup
 ```

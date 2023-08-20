@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container Login">
+  <div class="login-container with-background-image">
     <el-card class="login-card">
       <div v-show="isLogin">
         <h3>登录</h3>
@@ -189,9 +189,15 @@ export default {
   height: 100vh;
   background-color: #f5f7fa;
 }
+.with-background-image {
+  background-image: url("@/assets/img/img_login_background.webp");
+  background-size: cover;
+  background-position: center;
+}
 .login-card {
   width: 400px;
-  padding: 20px;
+  padding: 16px;
+  border-radius: 16px;
 }
 .login-form,
 .register-form {
