@@ -1,47 +1,84 @@
 <template>
   <div class="person-card" :class="{ activeCard: personInfo.id == current }">
     <div class="info">
-          <HeadPortrait :imgUrl="personInfo.headImg"></HeadPortrait>
-          <div class="info-detail">
-            <div class="name">{{ personInfo.name }}</div>
-            <div class="detail">{{ personInfo.detail }}</div>
-          </div>
-
+      <HeadPortrait
+        :imgUrl="getAvatarUrl(personInfo.chat_avatar)"
+      ></HeadPortrait>
+      <div class="info-detail">
+        <div class="name">{{ personInfo.chat_name }}</div>
+        <div class="last-message-bot">
+          <span
+            v-if="
+              personInfo.last_message !== null &&
+              personInfo.last_message.type == 0
+            "
+            class="last-message-content"
+          >
+            {{ personInfo.last_message.content }}
+          </span>
+          <span
+            v-else-if="
+              personInfo.last_message !== null &&
+              personInfo.last_message.type == 1
+            "
+            class="last-message-content"
+            >emoji~</span
+          >
+          <span v-else>unknow message</span>
+          <span class="last-message-time">
+            {{ showHourAndMinute(personInfo.last_message.timestamp) }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import HeadPortrait from "./HeadPortrait.vue";
+import base from "../api/index";
+let baseUrl = base.baseUrl;
 
 export default {
   props: {
     personInfo: {
-      default: {
-      },
+      default: {},
     },
     pcCurrent: {
-      default: ''
-    }
+      default: "",
+    },
   },
   components: {
     HeadPortrait,
   },
   data() {
     return {
-      current: '',
-    }
+      current: "",
+    };
   },
   watch: {
-    pcCurrent: function() {
-      this.isActive()
-    }
+    pcCurrent: function () {
+      this.isActive();
+    },
   },
   methods: {
     isActive() {
-      this.current = this.pcCurrent
-    }
-  }
+      this.current = this.pcCurrent;
+    },
+
+    showHourAndMinute(timeInMilliSecond) {
+      var date = new Date(timeInMilliSecond);
+      return date.getHours() + ":" + date.getMinutes();
+    },
+
+    getAvatarUrl(route) {
+      if (route == "") {
+        return route;
+      } else {
+        return baseUrl + route;
+      }
+    },
+  },
 };
 </script>
 
@@ -72,7 +109,17 @@ export default {
         text-overflow: ellipsis;
         margin-bottom: 5px;
       }
-      .detail {
+      .last-message-bot {
+        max-width: 100px;
+      }
+      .last-message-content {
+        color: #00ffff;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 12px;
+      }
+      .last-message-time {
         color: #5c6675;
         overflow: hidden;
         white-space: nowrap;
@@ -96,15 +143,15 @@ export default {
   }
 }
 .activeCard {
-    background-color: #1d90f5;
-    transition: 0.3s;
-    box-shadow: 3px 2px 10px 0px rgba(0, 136, 255);
-    .info {
-      .info-detail {
-        .detail {
-          color: #fff;
-        }
+  background-color: #1d90f5;
+  transition: 0.3s;
+  box-shadow: 3px 2px 10px 0px rgba(0, 136, 255);
+  .info {
+    .info-detail {
+      .detail {
+        color: #fff;
       }
     }
+  }
 }
 </style>

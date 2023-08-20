@@ -3,7 +3,7 @@
     <el-header>
       <div class="nav">
         <el-menu
-          default-active="cardList"
+          default-active="CardList"
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      activeTab: "cardList",
+      activeTab: "CardList",
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
       );
     },
     quit() {
-      this.$router.push(
+      this.$router.replace(
         {
           name: "login",
         },

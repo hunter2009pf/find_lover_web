@@ -26,24 +26,24 @@ export default new VueRouter({
       component: Home,
       children: [
         {
-          path: "/ChatHome",
-          name: "ChatHome",
-          component: ChatHome,
-        },
-        {
           path: "/CardList",
           name: "CardList",
           component: CardList,
         },
         {
-          path: "/JoinUs",
-          name: "JoinUs",
-          component: JoinUs,
+          path: "/ChatHome",
+          name: "ChatHome",
+          component: ChatHome,
         },
         {
           path: "/PersonalDetail",
           name: "PersonalDetail",
           component: PersonalDetail,
+        },
+        {
+          path: "/JoinUs",
+          name: "JoinUs",
+          component: JoinUs,
         },
       ],
     },

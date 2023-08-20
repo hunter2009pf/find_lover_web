@@ -130,12 +130,10 @@ export default {
                   "user_info",
                   JSON.stringify(res.data)
                 );
-              });
-              setTimeout(() => {
-                this.$router.push({
+                this.$router.replace({
                   name: "CardList",
                 });
-              }, 2000);
+              });
             } else {
               this.$message({
                 message: `${ERROR_MESSAGES[res.code]}`,

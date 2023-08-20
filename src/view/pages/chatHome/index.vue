@@ -1,16 +1,13 @@
 <template>
   <div class="chatHome">
     <div class="chatLeft">
-      <div class="title">
-        <h1>大猫聊天室</h1>
-      </div>
-      <div class="online-person">
-        <span class="onlin-text">聊天列表</span>
+      <div class="conv-list">
+        <span class="chat-list-text-style">聊天列表</span>
         <div class="person-cards-wrapper">
           <div
-            class="personList"
-            v-for="personInfo in personList"
-            :key="personInfo.id"
+            class="convList"
+            v-for="personInfo in convList"
+            :key="personInfo.chat_id"
             @click="clickPerson(personInfo)"
           >
             <PersonCard
@@ -22,11 +19,12 @@
       </div>
     </div>
     <div class="chatRight">
-      <!-- <router-view></router-view> -->
       <div v-if="showChatWindow">
         <ChatWindow
-          :frinedInfo="chatWindowInfo"
+          :friendInfo="chatWindowInfo"
+          :socket="socket"
           @personCardSort="personCardSort"
+          @setLastMessage="setLastMessage"
         ></ChatWindow>
       </div>
       <div class="showIcon" v-else>
@@ -41,8 +39,12 @@
 <script>
 import PersonCard from "@/components/PersonCard.vue";
 import ChatWindow from "./chatwindow.vue";
+import { getAllConversations, getUserInfo } from "@/api/getData";
+import base from "../../../api/index";
 
-import { getFriend } from "@/api/getData";
+let chatIP = base.chatIP;
+let chatPort = base.chatPort;
+
 export default {
   name: "App",
   components: {
@@ -52,36 +54,139 @@ export default {
   data() {
     return {
       pcCurrent: "",
-      personList: [],
+      convList: [],
       showChatWindow: false,
       chatWindowInfo: {},
+      socket: null,
     };
   },
   mounted() {
-    getFriend().then((res) => {
+    var params = {
+      page_size: 9999,
+    };
+    getAllConversations(params).then((res) => {
       console.log(res);
-      this.personList = res;
+      if (res.code == 0) {
+        this.convList = res.data;
+      }
     });
+
+    // ws建连
+    const token = localStorage.getItem("token");
+    this.socket = new WebSocket(
+      "ws://" + chatIP + ":" + chatPort + "/v1/websocket/connect/" + token
+    );
+
+    this.socket.onopen = function (e) {
+      // alert("[open] Connection established");
+      console.log("websocket connected successfully");
+    };
+    let that = this;
+    this.socket.onmessage = async function (event) {
+      var jsonData = JSON.parse(event.data);
+      if (jsonData.main_type == "message") {
+        var newMsg = jsonData.body;
+        if (newMsg.sender == that.pcCurrent) {
+          console.log("当前展示会话层，只更新最后一条消息，不更新未读数");
+          for (let i = 0; i < that.convList.length; i++) {
+            if (that.convList[i].chat_id == newMsg.sender) {
+              that.convList[i].last_message = newMsg;
+              break;
+            }
+          }
+          // 收到新消息，会话层移动到顶部
+          that.personCardSort(newMsg.sender);
+        } else {
+          console.log("未展开会话层，更新最后一条消息，未读数+1");
+          var isFound = false;
+          for (let i = 0; i < that.convList.length; i++) {
+            if (that.convList[i].chat_id == newMsg.sender) {
+              that.convList[i].last_message = newMsg;
+              that.convList[i].unread++;
+              isFound = true;
+              break;
+            }
+          }
+          if (!isFound) {
+            // 会话层不存在，说明是新人给我发消息
+            var params = {
+              user_id: newMsg.sender,
+            };
+            var res = await getUserInfo(params);
+            if (res.code == 0) {
+              console.log("user info: ", res);
+              var newPerson = res.data;
+              var newConv = {
+                chat_avatar: newPerson.avatar_url,
+                chat_id: newPerson.user_id,
+                chat_name: newPerson.nick_name,
+                is_group: false,
+                last_message: newMsg,
+                order_key: newMsg.timestamp,
+                unread: 1,
+              };
+              that.convList.unshift(newConv);
+            } else {
+              console.log("没找到人，只能忽略新消息了");
+            }
+          } else {
+            // 收到新消息，会话层移动到顶部
+            that.personCardSort(newMsg.sender);
+          }
+        }
+      }
+    };
+
+    this.socket.onclose = function (event) {
+      console.log("websocket close code: ", event.code, "   ", event.reason);
+      if (event.wasClean) {
+        // alert(
+        //   `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+        // );
+        console.log(
+          `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+        );
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        // alert("[close] Connection died");
+      }
+    };
+
+    this.socket.onerror = function (error) {
+      alert(`[error]`);
+    };
   },
   methods: {
     clickPerson(info) {
+      console.log("click person:");
+      console.log(info);
       this.showChatWindow = true;
       this.chatWindowInfo = info;
       this.personInfo = info;
-      this.pcCurrent = info.id;
+      this.pcCurrent = info.chat_id;
     },
-    personCardSort(id) {
-      if (id !== this.personList[0].id) {
-        console.log(id);
+    setLastMessage(msg) {
+      for (let i = 0; i < this.convList.length; i++) {
+        if (this.convList[i].chat_id == msg.receiver) {
+          this.convList[i].last_message = msg;
+          this.convList[i].order_key = msg.timestamp;
+          break;
+        }
+      }
+    },
+    personCardSort(chat_id) {
+      // 移动会话层到顶部
+      if (chat_id !== this.convList[0].chat_id) {
         let nowPersonInfo;
-        for (let i = 0; i < this.personList.length; i++) {
-          if (this.personList[i].id == id) {
-            nowPersonInfo = this.personList[i];
-            this.personList.splice(i, 1);
+        for (let i = 0; i < this.convList.length; i++) {
+          if (this.convList[i].chat_id == chat_id) {
+            nowPersonInfo = this.convList[i];
+            this.convList.splice(i, 1);
             break;
           }
         }
-        this.personList.unshift(nowPersonInfo);
+        this.convList.unshift(nowPersonInfo);
       }
     },
   },
@@ -101,11 +206,12 @@ export default {
       padding-left: 10px;
       padding-top: 10px;
     }
-    .online-person {
+    .conv-list {
       margin-top: 100px;
-      .onlin-text {
-        padding-left: 10px;
-        color: rgb(176, 178, 189);
+      .chat-list-text-style {
+        padding-left: 64px;
+        font-size: large;
+        color: aquamarine;
       }
       .person-cards-wrapper {
         padding-left: 10px;

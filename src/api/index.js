@@ -78,6 +78,9 @@ const base = {
   axios: axios,
   // baseUrl: 'http://localhost:8080'
   baseUrl: "http://47.98.116.66:26888",
+  chatUrl: "http://47.98.116.66:26999",
+  chatIP: "47.98.116.66",
+  chatPort: "26999",
 };
 
 export default base;

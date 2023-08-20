@@ -1,24 +1,35 @@
 import base from "./index";
 let axios = base.axios;
 let baseUrl = base.baseUrl;
+let chatUrl = base.chatUrl;
 
-// 获取好友
-export const getFriend = (params) => {
+// 获取单聊会话层列表
+export const getAllConversations = (params) => {
+  return axios({
+    method: "get",
+    baseURL: `${chatUrl}/v1/chat/conversation/query_list`,
+    params,
+  }).then((res) => res.data);
+};
+
+// 获取指定会话层的历史聊天信息（包含离线消息）
+export const getChatMessages = (params) => {
+  return axios({
+    method: "get",
+    baseURL: `${chatUrl}/v1/chat/message/history/query_list`,
+    params,
+  }).then((res) => res.data);
+};
+
+// 发送消息已读通知
+export const readMessage = (params) => {
   return axios({
     method: "post",
-    baseURL: `${baseUrl}/friend/friendList`,
+    baseURL: `${chatUrl}/v1/chat/message/read`,
     data: params,
   }).then((res) => res.data);
 };
 
-// 获取聊天信息
-export const getChatMsg = (params) => {
-  return axios({
-    method: "post",
-    baseURL: `${baseUrl}/friend/chatMsg`,
-    data: params,
-  }).then((res) => res.data);
-};
 // 注册
 export const getRegister = (params) => {
   return axios({
@@ -42,7 +53,7 @@ export const login = (params) => {
 export const getUserInfo = (params) => {
   return axios({
     method: "get",
-    baseURL: `${baseUrl}/v1/person/getInfo`,
+    baseURL: `${baseUrl}/v1/person/getPersonalInfo`,
     params, // 使用params属性传递参数
   }).then((res) => res.data);
 };
