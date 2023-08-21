@@ -1,49 +1,45 @@
 <template>
   <div class="join-us-container">
     <div class="group-wrap">
-      <div class="vip">
-        <h1>vip群</h1>
-        <div>
-          <img
-            :src="`${base.baseUrl}${data.vipGroup?.photo_url}`"
-            alt=""
-            class="qr-img"
-          />
-        </div>
-      </div>
-      <div class="free">
-        <h1>免费群</h1>
-        <div>
-          <img
-            :src="`${base.baseUrl}${data.freeGroup?.photo_url}`"
-            alt=""
-            class="qr-img"
-          />
-        </div>
-      </div>
+      <QRCode
+        v-if="freeGroup != null"
+        :qrcodeSrc="freeGroup.photo_url"
+        :description="freeGroup.description"
+      />
+      <QRCode
+        v-if="vipGroup != null"
+        :qrcodeSrc="vipGroup.photo_url"
+        :description="vipGroup.description"
+      />
     </div>
-    <div class="matchmaker">
+    <div class="hongniang-wrap">
       <h1>合肥红娘</h1>
-      <div class="matchmaker-wrap">
-        <div v-for="item in data.hongniangs">
-          <img
-            :src="`${base.baseUrl}${item.photo_url}`"
-            alt=""
-            class="matchmaker-img"
-          />
-        </div>
+      <div style="width: 60%; height: 80%; padding-left: 20%">
+        <el-carousel :interval="2000" height="1000px" direction="vertical">
+          <el-carousel-item v-for="item in hongniangs" :key="item">
+            <QRCode
+              :qrcodeSrc="item.photo_url"
+              :description="item.description"
+            />
+          </el-carousel-item>
+        </el-carousel>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import { getQrCode } from "../../../api/getData";
 import base from "../../../api/index";
+import QRCode from "../../../components/QRCode.vue"; // 导入二维码组件
+
 export default {
   data() {
     return {
-      data: {},
       base,
+      freeGroup: null,
+      vipGroup: null,
+      hongniangs: [],
     };
   },
   methods: {
@@ -54,13 +50,23 @@ export default {
   mounted() {
     getQrCode().then((res) => {
       console.log(res);
-      this.data = res.data;
+      this.freeGroup = res.data.freeGroup;
+      this.vipGroup = res.data.vipGroup;
+      this.hongniangs = res.data.hongniangs;
     });
+  },
+  components: {
+    QRCode, // 注册二维码组件
   },
 };
 </script>
+
+/* 样式仅适用于当前页面 */
 <style scoped>
-/* 略去其他样式 */
+.join-us-container {
+  display: flex;
+}
+
 h1 {
   text-align: center;
 }
@@ -68,17 +74,14 @@ h1 {
   height: 300px;
 }
 .group-wrap {
-  padding: 20px;
   display: flex;
-  justify-content: space-around;
+  width: 50%;
+  height: 100%;
 }
-.matchmaker-wrap {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
-  padding: 0 150px;
-}
-.matchmaker-img {
-  height: 200px;
+.hongniang-wrap {
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  justify-content: center;
 }
 </style>
