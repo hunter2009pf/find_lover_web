@@ -3,6 +3,39 @@
     <div v-if="!editing">
       <div class="card">
         <div class="card-left">
+          <div class="base-detail">
+            <div class="base-info">
+              <HeadPortrait
+                :imgUrl="getAvatarUrl(personDetail.avatar_url)"
+              ></HeadPortrait>
+              <h2 style="margin-bottom: 6px">
+                {{ personDetail.nick_name || "无名客" }}
+              </h2>
+              <ul>
+                <li>年龄: {{ personDetail.age }}</li>
+                <li>性别：{{ personDetail.is_boy ? "男" : "女" }}</li>
+                <li>身高：{{ personDetail.height }}</li>
+                <li>婚姻状况：{{ personDetail.marry_status }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-middle">
+          <li>是否有车: {{ personDetail.car_status }}</li>
+          <li>是否有房: {{ personDetail.house_status }}</li>
+          <li>工作: {{ personDetail.job }}</li>
+          <li>学历：{{ personDetail.degree }}</li>
+          <li>出生地：{{ personDetail.birth_place }}</li>
+          <li>当前住址: {{ personDetail.current_place }}</li>
+          <li>是否独孩：{{ personDetail.unique_child_status }}</li>
+          <li>微信: {{ personDetail.wechat }}</li>
+          <li>展示类型：{{ showType[personDetail.show_type] }}</li>
+          <p style="margin: 6px 0">期望类型：{{ personDetail.expectation }}</p>
+          <p style="margin: 6px 0">自我介绍：{{ personDetail.introduction }}</p>
+        </div>
+
+        <div class="card-right">
           <el-carousel :autoplay="false">
             <el-carousel-item
               v-for="image in personDetail.photo_urls"
@@ -15,39 +48,6 @@
               />
             </el-carousel-item>
           </el-carousel>
-          <div class="base-detail">
-            <div class="base-info">
-              <h2 style="margin-bottom: 6px">
-                {{ personDetail.nick_name || "快来完善信息吧" }}
-              </h2>
-              <ul>
-                <li>年龄: {{ personDetail.age }}</li>
-                <li>性别：{{ personDetail.is_boy ? "男" : "女" }}</li>
-                <li>身高：{{ personDetail.height }}</li>
-                <li>婚姻状况：{{ personDetail.marry_status }}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-right">
-          <div class="info">
-            <li>是否有车: {{ personDetail.car_status }}</li>
-            <li>是否有房: {{ personDetail.house_status }}</li>
-            <li>工作: {{ personDetail.job }}</li>
-            <li>学历：{{ personDetail.degree }}</li>
-            <li>出生地：{{ personDetail.birth_place }}</li>
-            <li>当前住址: {{ personDetail.current_place }}</li>
-            <li>是否独孩：{{ personDetail.unique_child_status }}</li>
-            <li>微信: {{ personDetail.wechat }}</li>
-            <li>展示类型：{{ showType[personDetail.show_type] }}</li>
-            <p style="margin: 6px 0">
-              期望类型：{{ personDetail.expectation }}
-            </p>
-            <p style="margin: 6px 0">
-              自我介绍：{{ personDetail.introduction }}
-            </p>
-          </div>
           <div class="edit-btn">
             <el-button type="warning" plain @click="handleEdit">编辑</el-button>
           </div>
@@ -67,11 +67,16 @@
 <script>
 import editDetail from "./editDetail.vue";
 import { showType } from "../../../constant/index";
-import { getUserInfo, getMyInfo } from "../../../api/getData";
+import { getMyInfo } from "../../../api/getData";
 import base from "../../../api/index";
+import HeadPortrait from "../../../components/HeadPortrait.vue";
+
+let baseUrl = base.baseUrl;
+
 export default {
   components: {
     editDetail,
+    HeadPortrait,
   },
   data() {
     return {
@@ -100,8 +105,7 @@ export default {
       },
     };
   },
-  computed: {},
-  created() {},
+
   methods: {
     handleEdit() {
       this.editing = true;
@@ -117,7 +121,15 @@ export default {
       });
       this.editing = false;
     },
+    getAvatarUrl(route) {
+      if (route == "") {
+        return route;
+      } else {
+        return baseUrl + route;
+      }
+    },
   },
+
   mounted() {
     getMyInfo().then((res) => {
       console.log("==", res);
@@ -136,8 +148,8 @@ export default {
   background-color: #ffebcd3e;
 }
 .card {
-  height: 500px;
-  width: 700px;
+  height: 100%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   padding: 10px;
@@ -153,10 +165,26 @@ export default {
 
   padding: 12px 50px;
 }
-.card-right {
+.card-left {
+  border-right: 2px dashed rgb(188, 144, 144);
+  width: 560px;
+  height: 720px;
+  padding-top: 16px;
+}
+.card-middle {
+  border-right: 2px dashed rgb(188, 144, 144);
   flex: 1;
+  width: 560px;
+  height: 720px;
   padding: 12px 20px;
   position: relative;
+}
+.card-right {
+  flex: 1;
+  padding: 16px 16px;
+  position: relative;
+  width: 560px;
+  height: 720px;
 }
 
 ul {
@@ -167,11 +195,6 @@ ul {
 
 li {
   margin-bottom: 5px;
-}
-.card-left {
-  border-right: 2px dashed rgb(188, 144, 144);
-  width: 400px;
-  padding-top: 14px;
 }
 .edit-btn {
   position: absolute;

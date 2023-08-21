@@ -21,17 +21,17 @@ export default {
   // border: 2px solid rgb(137,140,151);
   border: 2px solid rgb(255, 255, 255);
   position: relative;
-  &::before {
-    content: "";
-    width: 15px;
-    height: 15px;
-    z-index: 1;
-    display: block;
-    border-radius: 50%;
-    background-color: rgb(144, 225, 80);
-    position: absolute;
-    right: 0;
-  }
+  // &::before {
+  //   content: "2";
+  //   width: 15px;
+  //   height: 15px;
+  //   z-index: 1;
+  //   display: block;
+  //   border-radius: 50%;
+  //   background-color: rgb(144, 225, 80);
+  //   position: absolute;
+  //   right: 0;
+  // }
   img {
     width: 45px;
     height: 45px;
