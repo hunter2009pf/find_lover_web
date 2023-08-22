@@ -3,7 +3,7 @@
     <el-header>
       <div class="nav">
         <el-menu
-          default-active="CardList"
+          :default-active="currentRoute"
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      activeTab: "CardList",
+      currentRoute: "CardList",
     };
   },
   methods: {
@@ -54,6 +54,13 @@ export default {
         },
         () => {}
       );
+    },
+  },
+  watch: {
+    $route(to, from) {
+      // 监听到路由变化时的操作
+      console.log("路由变化了", to, from);
+      this.currentRoute = to.name;
     },
   },
 };

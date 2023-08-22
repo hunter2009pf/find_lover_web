@@ -46,7 +46,7 @@ let chatIP = base.chatIP;
 let chatPort = base.chatPort;
 
 export default {
-  name: "App",
+  name: "chatIndex",
   components: {
     PersonCard,
     ChatWindow,
@@ -58,16 +58,50 @@ export default {
       showChatWindow: false,
       chatWindowInfo: {},
       socket: null,
+      createChatTarget: {}, // 主动新建聊天的对象
     };
   },
   mounted() {
+    console.log("加载了");
     var params = {
       page_size: 9999,
     };
     getAllConversations(params).then((res) => {
-      console.log(res);
       if (res.code == 0) {
         this.convList = res.data;
+        this.createChatTarget = this.$route.params.data;
+        if (this.$route.params) {
+          // 如果有路由传参，说明要开始聊天
+          if (
+            this.convList.some(
+              // 如果历史列表里有，则把聊天置顶
+              (item) => item.chat_id === this.createChatTarget.user_id
+            )
+          ) {
+            this.personCardSort(this.createChatTarget.user_id);
+          } else {
+            // 没有历史聊天，则新建对话
+            var params = {
+              user_id: this.createChatTarget.user_id,
+            };
+            getUserInfo(params).then((res) => {
+              if (res.code == 0) {
+                console.log("user info: ", res);
+                var newPerson = res.data;
+                var newConv = {
+                  chat_avatar: newPerson.avatar_url,
+                  chat_id: newPerson.user_id,
+                  chat_name: newPerson.nick_name,
+                  is_group: false,
+                  last_message: "",
+                  order_key: new Date().getTime(),
+                  unread: 0,
+                };
+                this.convList.unshift(newConv);
+              }
+            });
+          }
+        }
       }
     });
 
@@ -199,6 +233,10 @@ export default {
         this.convList.unshift(nowPersonInfo);
       }
     },
+  },
+  beforeDestroy() {
+    console.log(this.socket, "=======");
+    this.socket.close();
   },
 };
 </script>

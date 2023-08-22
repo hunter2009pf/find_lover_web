@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import Vue from "vue";
+import chatIndex from "../view/pages/chatHome/index.vue";
 import { getRegister, login, getMyInfo } from "../api/getData";
 import { ERROR_MESSAGES } from "../api/index";
 export default {
@@ -135,6 +137,15 @@ export default {
                   name: "CardList",
                 });
               });
+
+              // // 创建一个组件构造函数
+              // const ComponentConstructor = Vue.extend(chatIndex);
+
+              // // 实例化组件
+              // const componentInstance = new ComponentConstructor();
+
+              // // 手动挂载组件到空节点
+              // componentInstance.$mount();
             } else {
               this.$message({
                 message: `${ERROR_MESSAGES[res.code]}`,

@@ -24,8 +24,11 @@
             class="last-message-content"
             >emoji~</span
           >
-          <span v-else>unknow message</span>
-          <span class="last-message-time">
+          <span v-else></span>
+          <span
+            class="last-message-time"
+            v-if="personInfo.last_message.timestamp"
+          >
             {{ showHourAndMinute(personInfo.last_message.timestamp) }}
           </span>
         </div>
@@ -67,6 +70,7 @@ export default {
     },
 
     showHourAndMinute(timeInMilliSecond) {
+      console.log(timeInMilliSecond);
       var date = new Date(timeInMilliSecond);
       return date.getHours() + ":" + date.getMinutes();
     },

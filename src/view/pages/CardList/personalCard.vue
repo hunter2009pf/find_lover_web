@@ -1,7 +1,7 @@
 <template>
   <div class="card-container">
     <div class="card">
-      <div v-if="personData.show_type == 0">
+      <div v-if="this.personData.show_type == 0">
         <div class="image-container">
           <img :src="photoUrl" alt="人物图片" class="card-image" />
         </div>
@@ -143,7 +143,15 @@ export default {
         });
       }
     },
-    openChat() {},
+    openChat() {
+      console.log(this.personData);
+      this.$router.push({
+        name: "ChatHome",
+        params: {
+          data: this.personData, // 携带的参数
+        },
+      });
+    },
     showDetails() {},
   },
   mounted() {},

@@ -145,11 +145,12 @@ export default {
   justify-content: center;
   align-items: center;
   height: calc(100vh - 100px);
+
   background-color: #ffebcd3e;
 }
 .card {
   height: 100%;
-  width: 100%;
+  width: calc(100vw - 200px);
   margin: 0 auto;
   display: flex;
   padding: 10px;
@@ -167,15 +168,15 @@ export default {
 }
 .card-left {
   border-right: 2px dashed rgb(188, 144, 144);
-  width: 560px;
-  height: 720px;
+  width: 30%;
+  height: calc(100vh - 200px);
   padding-top: 16px;
 }
 .card-middle {
   border-right: 2px dashed rgb(188, 144, 144);
   flex: 1;
-  width: 560px;
-  height: 720px;
+  width: 30%;
+  height: calc(100vh - 200px);
   padding: 12px 20px;
   position: relative;
 }
@@ -183,8 +184,8 @@ export default {
   flex: 1;
   padding: 16px 16px;
   position: relative;
-  width: 560px;
-  height: 720px;
+  width: 30%;
+  height: calc(100vh - 200px);
 }
 
 ul {
