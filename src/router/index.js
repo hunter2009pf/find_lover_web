@@ -5,11 +5,11 @@ import ChatHome from "../view/pages/chatHome/index.vue";
 import Video from "../view/pages/video.vue";
 import Lingting from "../view/pages/lingting.vue";
 import Setting from "../view/pages/setting.vue";
-import ChatWindow from "../view/pages/chatHome/chatwindow.vue";
 import CardList from "../view/pages/CardList/cardList.vue";
 import JoinUs from "../view/pages/JoinUs/index.vue";
 import PersonalDetail from "../view/pages/PersonalDetail/personalDetail.vue";
 export default new VueRouter({
+  // mode: "hash",
   routes: [
     {
       path: "/login",
