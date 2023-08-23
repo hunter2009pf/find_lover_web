@@ -153,7 +153,14 @@ export default {
         },
       });
     },
-    showDetails() {},
+    showDetails() {
+      this.$router.push({
+        name: "LoverDetail",
+        params: {
+          data: this.personData, // 携带的参数
+        },
+      });
+    },
   },
   mounted() {
     console.log(this.personData.user_id, this.idolList);

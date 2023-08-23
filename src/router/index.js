@@ -8,6 +8,8 @@ import Setting from "../view/pages/setting.vue";
 import CardList from "../view/pages/CardList/cardList.vue";
 import JoinUs from "../view/pages/JoinUs/index.vue";
 import PersonalDetail from "../view/pages/PersonalDetail/personalDetail.vue";
+import LoverDetail from "../view/pages/LoverDetail/loverDetail.vue";
+
 export default new VueRouter({
   // mode: "hash",
   routes: [
@@ -46,6 +48,12 @@ export default new VueRouter({
           component: JoinUs,
         },
       ],
+    },
+
+    {
+      path: "/LoverDetail",
+      name: "LoverDetail",
+      component: LoverDetail,
     },
 
     {
