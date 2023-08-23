@@ -11,14 +11,14 @@
         :key="person.user_id"
         ref="carousel"
       >
-        <personalCard :personData="person"></personalCard>
+        <personalCard :personData="person" :idolList="idolList"></personalCard>
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 
 <script>
-import { getRandomUser } from "../../../api/getData";
+import { getRandomUser, getMyIdols } from "../../../api/getData";
 
 import personalCard from "./personalCard.vue";
 export default {
@@ -32,6 +32,7 @@ export default {
       loading: true,
       personData: [],
       currentIndex: 0,
+      idolList: [],
     };
   },
   methods: {
@@ -45,6 +46,12 @@ export default {
         this.personData = this.personData.concat(res.data);
         this.personData = this.personData.filter((item, index, self) => {
           return index === self.findIndex((t) => t.user_id === item.user_id); // 每次拼接都去重
+        });
+        const idolParams = { page_number: 1, page_size: 9999 };
+
+        getMyIdols({ ...idolParams }).then((res) => {
+          console.log(res, "===");
+          this.idolList = res.data;
         });
         this.loading = false;
       });
@@ -60,6 +67,9 @@ export default {
   },
 
   mounted() {
+    this.params.is_boy = JSON.parse(
+      window.localStorage.getItem("user_info")
+    ).is_boy;
     this._getList();
   },
   watch: {

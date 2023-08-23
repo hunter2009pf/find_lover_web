@@ -115,6 +115,7 @@ import base from "../../../api/index";
 export default {
   props: {
     personData: {},
+    idolList: [],
   },
   data() {
     return {
@@ -132,12 +133,12 @@ export default {
   methods: {
     toggleLike() {
       if (this.liked) {
-        dislikePeople({ idol_id: 6 }).then(() => {
+        dislikePeople({ idol_id: this.personData.user_id }).then(() => {
           this.liked = false;
         });
       } else {
         const formData = new FormData();
-        formData.append("idol_id", 3);
+        formData.append("idol_id", this.personData.user_id);
         likePeople(formData).then(() => {
           this.liked = true;
         });
@@ -154,7 +155,14 @@ export default {
     },
     showDetails() {},
   },
-  mounted() {},
+  mounted() {
+    console.log(this.personData.user_id, this.idolList);
+    if (this.idolList) {
+      this.liked = this.idolList.some(
+        (item) => item.user_id === this.personData.user_id
+      );
+    }
+  },
 };
 </script>
 

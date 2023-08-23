@@ -132,3 +132,11 @@ export const getQrCode = (params) => {
     params,
   }).then((res) => res.data);
 };
+// 查找我的喜欢
+export const getMyIdols = (params) => {
+  return axios({
+    method: "get",
+    baseURL: `${baseUrl}/v1/person/getPaginatedIdols`,
+    params,
+  }).then((res) => res.data);
+};
