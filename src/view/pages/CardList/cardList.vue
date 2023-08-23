@@ -42,16 +42,15 @@ export default {
     _getList() {
       this.loading = true;
       getRandomUser({ ...this.params }).then((res) => {
-        console.log(res);
-        this.personData = this.personData.concat(res.data);
-        this.personData = this.personData.filter((item, index, self) => {
-          return index === self.findIndex((t) => t.user_id === item.user_id); // 每次拼接都去重
-        });
         const idolParams = { page_number: 1, page_size: 9999 };
 
-        getMyIdols({ ...idolParams }).then((res) => {
-          console.log(res, "===");
-          this.idolList = res.data;
+        getMyIdols({ ...idolParams }).then((idolRes) => {
+          console.log(idolRes, "===");
+          this.idolList = idolRes.data;
+          this.personData = this.personData.concat(res.data);
+          this.personData = this.personData.filter((item, index, self) => {
+            return index === self.findIndex((t) => t.user_id === item.user_id); // 每次拼接都去重
+          });
         });
         this.loading = false;
       });
