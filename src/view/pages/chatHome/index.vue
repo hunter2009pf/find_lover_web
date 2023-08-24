@@ -8,7 +8,7 @@
             class="convList"
             v-for="personInfo in convList"
             :key="personInfo.chat_id"
-            @click="clickPerson(personInfo)"
+            @click="clickOnConversation(personInfo)"
           >
             <PersonCard
               :personInfo="personInfo"
@@ -72,14 +72,22 @@ export default {
         this.createChatTarget = this.$route.params.data;
         if (this.$route.params) {
           // 如果有路由传参，说明要开始聊天
-          if (
-            this.convList.some(
-              // 如果历史列表里有，则把聊天置顶
-              (item) => item.chat_id === this.createChatTarget.user_id
-            )
-          ) {
+          var found = false;
+          var targetConv = null;
+          for (let i = 0; i < this.convList.length; i++) {
+            if (this.convList[i].chat_id === this.createChatTarget.user_id) {
+              found = true;
+              targetConv = this.convList[i];
+              break;
+            }
+          }
+          if (found) {
+            console.log("find conversation");
+            // 如果历史列表里有，则把聊天置顶
             this.personCardSort(this.createChatTarget.user_id);
+            this.clickOnConversation(targetConv);
           } else {
+            console.log("not find conversation");
             // 没有历史聊天，则新建对话
             var params = {
               user_id: this.createChatTarget.user_id,
@@ -98,6 +106,7 @@ export default {
                   unread: 0,
                 };
                 this.convList.unshift(newConv);
+                this.clickOnConversation(newConv);
               }
             });
           }
@@ -202,7 +211,7 @@ export default {
   },
 
   methods: {
-    clickPerson(info) {
+    clickOnConversation(info) {
       console.log("click person:");
       console.log(info);
       this.showChatWindow = true;
