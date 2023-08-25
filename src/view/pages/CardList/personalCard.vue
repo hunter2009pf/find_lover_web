@@ -39,7 +39,11 @@
               <div class="divider"></div>
               <div class="border-wrap"></div>
               <div class="motto-content">
-                <span>自我介绍：{{ personData.introduction }}</span>
+                <span
+                  >自我介绍：{{
+                    personData.introduction || "这个人很神秘，快来聊天了解他吧~"
+                  }}</span
+                >
               </div>
             </div>
           </div>
@@ -179,7 +183,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: #f5f7fa;
+  /* background-color: #f5f7fa; */
 }
 
 .card {
@@ -279,7 +283,7 @@ export default {
   padding: 6px;
   position: absolute;
   width: 170px;
-  height: 93px;
+  min-height: 80px;
   top: 0px;
   left: 0px;
   border: 3px solid rgb(124, 136, 198);

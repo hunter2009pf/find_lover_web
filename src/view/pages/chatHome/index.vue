@@ -83,7 +83,9 @@ export default {
           }
           if (found) {
             console.log("find conversation");
+
             // 如果历史列表里有，则把聊天置顶
+            // this.pcCurrent = this.createChatTarget.user_id;
             this.personCardSort(this.createChatTarget.user_id);
             this.clickOnConversation(targetConv);
           } else {

@@ -5,7 +5,7 @@
         :imgUrl="getAvatarUrl(personInfo.chat_avatar)"
       ></HeadPortrait>
       <div class="info-detail">
-        <div class="name">{{ personInfo.chat_name }}</div>
+        <div class="name">{{ personInfo.chat_name || "无名客" }}</div>
         <div class="last-message-bot">
           <span
             v-if="

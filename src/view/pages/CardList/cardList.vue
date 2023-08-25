@@ -5,6 +5,7 @@
       :autoplay="false"
       @change="handleCarouselChange"
       :initial-index="currentIndex"
+      type="card"
     >
       <el-carousel-item
         v-for="person in personData"
@@ -83,6 +84,31 @@ export default {
   min-height: 590px;
 }
 :deep(.el-carousel__indicators--outside) {
+  display: none;
+}
+:deep(.el-carousel__item:nth-child(2n)::after) {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f5f7fa6c;
+  z-index: 1;
+}
+:deep(.el-carousel__item:nth-child(2n + 1)::after) {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f5f7fa6c;
+  z-index: 1;
+}
+
+:deep(.el-carousel__container .is-active::after) {
+  content: none;
   display: none;
 }
 </style>
