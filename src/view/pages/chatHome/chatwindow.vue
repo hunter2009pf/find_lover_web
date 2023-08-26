@@ -160,22 +160,28 @@ export default {
     this.myInfo = JSON.parse(userInfoStr);
     this.getFriendChatMsg();
     // 挂载消息监听
-    let that = this;
-    this.socket.addEventListener("message", function (event) {
+    // let that = this;
+    this.socket.addEventListener("message", this.onMessage);
+  },
+  beforeDestroy() {
+    this.socket.removeEventListener("message", this.onMessage);
+  },
+  methods: {
+    onMessage(event) {
       console.log("收到消息:", event.data);
       var jsonData = JSON.parse(event.data);
-      if (jsonData.body.sender == that.friendInfo.chat_id) {
+      if (jsonData.body.sender == this.friendInfo.chat_id) {
         if (jsonData.main_type == "message") {
           var newMsg = jsonData.body;
-          that.chatList.push(newMsg);
-          that.scrollBottom();
+          this.chatList.push(newMsg);
+          this.scrollBottom();
         } else if (jsonData.main_type == "acknowledge") {
           // 服务器确认收到消息
           var ackMsg = jsonData.body;
-          var length = that.chatList.length;
+          var length = this.chatList.length;
           for (let i = length - 1; i >= 0; i--) {
-            if (that.chatList[i].mid == ackMsg.mid) {
-              that.chatList[i].seq_id = ackMsg.seq_id;
+            if (this.chatList[i].mid == ackMsg.mid) {
+              this.chatList[i].seq_id = ackMsg.seq_id;
               break;
             }
           }
@@ -183,9 +189,7 @@ export default {
           console.log("unknown main type");
         }
       }
-    });
-  },
-  methods: {
+    },
     // 获取头像链接
     getAvatarUrl(route) {
       console.log(route);

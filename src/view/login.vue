@@ -63,10 +63,9 @@
 </template>
 
 <script>
-import Vue from "vue";
-import chatIndex from "../view/pages/chatHome/index.vue";
 import { getRegister, login, getMyInfo } from "../api/getData";
 import { ERROR_MESSAGES } from "../api/index";
+
 export default {
   data() {
     return {
