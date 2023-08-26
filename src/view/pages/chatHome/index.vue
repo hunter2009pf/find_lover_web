@@ -189,6 +189,7 @@ export default {
     setLastMessage(msg) {
       for (let i = 0; i < this.convList.length; i++) {
         if (this.convList[i].chat_id == msg.receiver) {
+          console.log("set last message");
           this.convList[i].last_message = msg;
           this.convList[i].order_key = msg.timestamp;
           break;

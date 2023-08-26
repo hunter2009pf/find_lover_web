@@ -303,6 +303,8 @@ export default {
       };
       this.sendMsg(chatMsg);
       this.clickEmoji();
+      this.$emit("setLastMessage", chatMsg);
+      this.$emit("personCardSort", this.friendInfo.chat_id);
     },
     //发送本地图片
     sendImg(e) {
