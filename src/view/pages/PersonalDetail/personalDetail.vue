@@ -32,7 +32,12 @@
           <li>微信: {{ personDetail.wechat }}</li>
           <li>展示类型：{{ showType[personDetail.show_type] }}</li>
           <p style="margin: 6px 0">期望类型：{{ personDetail.expectation }}</p>
-          <p style="margin: 6px 0">自我介绍：{{ personDetail.introduction }}</p>
+          <p style="margin: 6px 0">
+            自我介绍：{{
+              personDetail.introduction ||
+              "简单介绍一下自己，更容易找到另一半呦~"
+            }}
+          </p>
         </div>
 
         <div class="card-right">
