@@ -59,28 +59,28 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <editDetail
+    <div v-else style="width: 100%; height: 100%">
+      <editDetailNew
         @cancelEditing="cancelEditing"
         @doneUpload="doneUpload"
-        :initialFormData="personDetail"
-      />
+        :personInfo="personDetail"
+      ></editDetailNew>
     </div>
   </div>
 </template>
 
 <script>
-import editDetail from "./editDetail.vue";
 import { showType } from "../../../constant/index";
 import { getMyInfo } from "../../../api/getData";
 import base from "../../../api/index";
 import HeadPortrait from "../../../components/HeadPortrait.vue";
+import editDetailNew from "./editDetailNew.vue";
 
 let baseUrl = base.baseUrl;
 
 export default {
   components: {
-    editDetail,
+    editDetailNew,
     HeadPortrait,
   },
   data() {
@@ -116,15 +116,17 @@ export default {
       this.editing = true;
     },
     cancelEditing() {
+      getMyInfo().then((res) => {
+        this.personDetail = res.data;
+      });
       this.editing = false;
-      console.log("触发");
-      console.log(this.editing);
     },
     doneUpload() {
       getMyInfo().then((res) => {
         this.personDetail = res.data;
       });
       this.editing = false;
+      console.log("is editing mode? ", this.editing);
     },
     getAvatarUrl(route) {
       if (route == "") {
