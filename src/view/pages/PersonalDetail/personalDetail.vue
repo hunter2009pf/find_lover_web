@@ -8,22 +8,23 @@
               <HeadPortrait
                 :imgUrl="getAvatarUrl(personDetail.avatar_url)"
               ></HeadPortrait>
-              <h2 style="margin-bottom: 6px">
+              <h2 style="margin-top: 16px">
                 {{ personDetail.nick_name || "无名客" }}
               </h2>
               <ul>
                 <li>年龄: {{ personDetail.age }}</li>
                 <li>性别：{{ personDetail.is_boy ? "男" : "女" }}</li>
-                <li>身高：{{ personDetail.height }}</li>
+                <li>身高：{{ personDetail.height }} cm</li>
+                <li>体重：{{ personDetail.weight }} kg</li>
                 <li>婚姻状况：{{ personDetail.marry_status }}</li>
+                <li>车辆情况: {{ personDetail.car_status }}</li>
+                <li>房屋情况: {{ personDetail.house_status }}</li>
               </ul>
             </div>
           </div>
         </div>
 
         <div class="card-middle">
-          <li>是否有车: {{ personDetail.car_status }}</li>
-          <li>是否有房: {{ personDetail.house_status }}</li>
           <li>工作: {{ personDetail.job }}</li>
           <li>学历：{{ personDetail.degree }}</li>
           <li>出生地：{{ personDetail.birth_place }}</li>
@@ -31,8 +32,10 @@
           <li>是否独孩：{{ personDetail.unique_child_status }}</li>
           <li>微信: {{ personDetail.wechat }}</li>
           <li>展示类型：{{ showType[personDetail.show_type] }}</li>
-          <p style="margin: 6px 0">期望类型：{{ personDetail.expectation }}</p>
-          <p style="margin: 6px 0">
+          <p class="long-text-style">
+            期望的ta：{{ personDetail.expectation }}
+          </p>
+          <p class="long-text-style">
             自我介绍：{{
               personDetail.introduction ||
               "简单介绍一下自己，更容易找到另一半呦~"
@@ -41,7 +44,11 @@
         </div>
 
         <div class="card-right">
-          <el-carousel :autoplay="false">
+          <el-empty
+            description="期待您上传生活照呦~"
+            v-if="personDetail.photo_urls.length == 0"
+          ></el-empty>
+          <el-carousel :autoplay="false" v-else>
             <el-carousel-item
               v-for="image in personDetail.photo_urls"
               :key="image.id"
@@ -188,11 +195,10 @@ export default {
   position: relative;
 }
 .card-right {
-  flex: 1;
-  padding: 16px 16px;
-  position: relative;
   width: 30%;
   height: calc(100vh - 200px);
+  padding: 16px 16px;
+  position: relative;
 }
 
 ul {
@@ -202,19 +208,19 @@ ul {
 }
 
 li {
-  margin-bottom: 5px;
+  margin-top: 24px;
+  font-size: x-large;
 }
 .edit-btn {
   position: absolute;
-  right: 12px;
-  bottom: 20px;
+  bottom: 40px;
+  left: 45%;
 }
 
 .carousel-image {
-  width: 280px;
-  height: 280px;
+  width: 100%;
   object-fit: contain;
-  border-radius: 25px;
+  border-radius: 16px;
 }
 .card-left >>> .el-carousel__item {
   display: flex;
@@ -223,5 +229,9 @@ li {
 }
 .card-left >>> .el-carousel__indicators {
   display: none;
+}
+.long-text-style {
+  margin-top: 40px;
+  font-size: large;
 }
 </style>
