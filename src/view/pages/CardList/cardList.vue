@@ -12,7 +12,10 @@
         :key="person.user_id"
         ref="carousel"
       >
-        <personalCard :personData="person" :idolList="idolList"></personalCard>
+        <personalCardNew
+          :personData="person"
+          :idolList="idolList"
+        ></personalCardNew>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -21,10 +24,10 @@
 <script>
 import { getRandomUser, getMyIdols } from "../../../api/getData";
 
-import personalCard from "./personalCard.vue";
+import personalCardNew from "./personalCardNew.vue";
 export default {
   components: {
-    personalCard,
+    personalCardNew,
   },
   data() {
     return {
