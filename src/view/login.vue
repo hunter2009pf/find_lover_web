@@ -15,7 +15,11 @@
           </el-form-item>
 
           <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="loginForm.password"></el-input>
+            <el-input
+              type="password"
+              v-model="loginForm.password"
+              @keyup.enter.native="login"
+            ></el-input>
           </el-form-item>
 
           <el-form-item>

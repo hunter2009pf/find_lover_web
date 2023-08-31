@@ -3,6 +3,17 @@
     <div class="chatLeft">
       <div class="conv-list">
         <span class="chat-list-text-style">聊天列表</span>
+        <div class="search-wrap">
+          <el-autocomplete
+            class="inline-input"
+            v-model="searchVal"
+            :fetch-suggestions="querySearch"
+            placeholder="搜索用户"
+            :trigger-on-focus="false"
+            @select="handleSelect"
+          ></el-autocomplete>
+        </div>
+
         <div class="person-cards-wrapper">
           <div
             class="convList"
@@ -59,6 +70,7 @@ export default {
       chatWindowInfo: {},
       socket: null,
       createChatTarget: {}, // 主动新建聊天的对象
+      searchVal: "",
     };
   },
   mounted() {
@@ -244,6 +256,31 @@ export default {
         this.convList.unshift(nowPersonInfo);
       }
     },
+    querySearch(queryString, cb) {
+      var convList = this.convList;
+      console.log();
+      var results = queryString
+        ? convList.filter((item) => {
+            console.log(item.chat_name, queryString);
+            return (
+              item.chat_name
+                .toLowerCase()
+                .indexOf(queryString.toLowerCase()) === 0
+            );
+          })
+        : convList;
+      // 调用 callback 返回建议列表的数据
+      var resultArr = results.map((item) => {
+        return { ...item, value: item.chat_name };
+      });
+      cb(resultArr);
+    },
+
+    handleSelect(e) {
+      this.personCardSort(e.chat_id);
+      this.clickOnConversation(e);
+      this.searchVal = "";
+    },
   },
   beforeDestroy() {
     console.log(this.socket, "=======");
@@ -266,7 +303,7 @@ export default {
       padding-top: 10px;
     }
     .conv-list {
-      margin-top: 100px;
+      margin-top: 40px;
       .chat-list-text-style {
         padding-left: 64px;
         font-size: large;
@@ -287,7 +324,16 @@ export default {
       }
     }
   }
-
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin-top: 20px;
+  }
+  :deep(.el-input__inner) {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.215);
+  }
   .chatRight {
     flex: 1;
     padding-right: 30px;

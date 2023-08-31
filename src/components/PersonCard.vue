@@ -29,7 +29,7 @@
             class="last-message-time"
             v-if="personInfo.last_message.timestamp"
           >
-            {{ showHourAndMinute(personInfo.last_message.timestamp) }}
+            {{ getTimeDisplay(personInfo.last_message.timestamp) }}
           </span>
         </div>
       </div>
@@ -74,6 +74,67 @@ export default {
       var date = new Date(timeInMilliSecond);
       return date.getHours() + ":" + date.getMinutes();
     },
+    getTimeDisplay(timestamp) {
+      let now = new Date();
+      let nowTimestamp = now.getTime();
+      let diff = (nowTimestamp - timestamp) / 1000; // 时间差，单位为秒
+
+      // 判断是否是今天
+      if (diff < 24 * 60 * 60) {
+        // 如果是今天，展示时间
+        return formatTime(timestamp);
+      }
+
+      // 判断是否是昨天
+      let yesterday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 1
+      );
+      let yesterdayTimestamp = yesterday.getTime();
+      if (timestamp > yesterdayTimestamp) {
+        // 如果是昨天，展示"昨天 + 时间"
+        return "昨天 " + formatTime(timestamp);
+      }
+
+      // 判断是否是两天以上
+      if (diff < 2 * 24 * 60 * 60) {
+        // 如果是两天以上，展示"几月几号"
+        return formatDate(timestamp);
+      }
+
+      // 一年以上展示"年月日"
+      return formatFullDate(timestamp);
+      // 格式化时间
+      function formatTime(timestamp) {
+        let date = new Date(timestamp);
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        return `${formatDigit(hour)}:${formatDigit(minute)}`;
+      }
+
+      // 格式化日期
+      function formatDate(timestamp) {
+        let date = new Date(timestamp);
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        return `${month}月${day}日`;
+      }
+
+      // 格式化年月日
+      function formatFullDate(timestamp) {
+        let date = new Date(timestamp);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        return `${year}年${month}月${day}日`;
+      }
+
+      // 补零
+      function formatDigit(num) {
+        return num < 10 ? "0" + num : num;
+      }
+    },
 
     getAvatarUrl(route) {
       if (route == "") {
@@ -117,6 +178,7 @@ export default {
         max-width: 100px;
       }
       .last-message-content {
+        display: block;
         color: #00ffff;
         overflow: hidden;
         white-space: nowrap;

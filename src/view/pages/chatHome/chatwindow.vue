@@ -188,7 +188,6 @@ export default {
   methods: {
     // 获取头像链接
     getAvatarUrl(route) {
-      console.log(route);
       if (route == "") {
         return route;
       } else {

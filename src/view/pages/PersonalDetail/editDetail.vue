@@ -9,13 +9,25 @@
               <el-option :label="showType[1]" :value="1"></el-option>
               <el-option :label="showType[2]" :value="2"></el-option>
             </el-select>
-            <div style="float: right">
+          </el-form-item>
+          <div style="margin: 20px 0">
+            <el-upload
+              class="avatar-uploader"
+              :file-list="photosList"
+              :before-upload="beforeUpload"
+              action="*"
+              :http-request="customRequest"
+              :before-remove="removePhoto"
+              accept=".jpg,.jpeg,.png,.webp"
+              list-type="picture"
+            >
               <el-button type="primary" @click="dialogVisible = true"
                 >上传生活照</el-button
               >
-            </div>
-          </el-form-item>
-
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+            </el-upload>
+          </div>
           <el-form-item label="姓名：" prop="nick_name">
             <el-input v-model="formData.nick_name"></el-input>
           </el-form-item>
@@ -102,32 +114,19 @@
       </el-card>
 
       <!-- 图片上传弹窗 -->
-      <el-dialog
+      <!-- <el-dialog
         :visible="dialogVisible"
         title="上传图片"
         @close="handleCloseDialog"
         :modal="false"
       >
-        <el-upload
-          class="avatar-uploader"
-          :file-list="photosList"
-          :before-upload="beforeUpload"
-          action="*"
-          :http-request="customRequest"
-          :before-remove="removePhoto"
-          accept=".jpg,.jpeg,.png,.webp"
-          list-type="picture"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
           <el-button type="primary" @click="dialogVisible = false"
             >确认</el-button
           >
         </div>
-      </el-dialog>
+      </el-dialog> -->
     </div>
     <div class="btn-wrap">
       <el-button type="primary" @click="submitForm">提交</el-button>
