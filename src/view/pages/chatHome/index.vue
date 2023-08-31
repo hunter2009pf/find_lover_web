@@ -77,8 +77,10 @@ export default {
     getAllConversations(params).then((res) => {
       if (res.code == 0) {
         this.convList = res.data;
-        if (this.$route.params) {
-          console.log("arrive here");
+        if (
+          this.$route.params &&
+          typeof this.$route.params.data != "undefined"
+        ) {
           this.createChatTarget = this.$route.params.data;
           // 如果有路由传参，说明要开始聊天
           var found = false;
