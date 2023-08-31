@@ -77,11 +77,13 @@ export default {
     getAllConversations(params).then((res) => {
       if (res.code == 0) {
         this.convList = res.data;
-        if (this.$route.params && this.$route.params.size > 0) {
+        if (this.$route.params) {
+          console.log("arrive here");
           this.createChatTarget = this.$route.params.data;
           // 如果有路由传参，说明要开始聊天
           var found = false;
           var targetConv = null;
+          console.log("user id is ", this.createChatTarget.user_id);
           for (let i = 0; i < this.convList.length; i++) {
             if (this.convList[i].chat_id === this.createChatTarget.user_id) {
               found = true;
