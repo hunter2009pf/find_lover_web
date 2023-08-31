@@ -1,6 +1,12 @@
 <template>
   <div class="page">
-    <div class="photo-show" v-if="typeof personData.photo_urls !== 'undefined' && personData.photo_urls.length > 0">
+    <div
+      class="photo-show"
+      v-if="
+        typeof personData.photo_urls !== 'undefined' &&
+        personData.photo_urls.length > 0
+      "
+    >
       <el-carousel :interval="2000" arrow="always">
         <el-carousel-item
           style="align-items: center"
@@ -15,20 +21,29 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    <div class="card" v-if="personData.show_type === 1 || personData.show_type === 2">
+    <div
+      class="card"
+      v-if="personData.show_type === 1 || personData.show_type === 2"
+    >
       <div class="flex-item">
-          <div class="avatar-and-name">
-            <HeadPortrait :imgUrl="getAvatarUrl(personData.avatar_url)"></HeadPortrait>
-            <h2 style="padding-left: 16px;">{{ personData.nick_name || "无名客" }}</h2>
-          </div>
-          <p class="personal-info-left">年龄：{{ personData.age }}</p>
-          <p class="personal-info-left">
-            性别：{{ personData.is_boy ? "男" : "女" }}
-          </p>
-          <p class="personal-info-left">身高：{{ personData.height }}cm</p>
-          <p class="personal-info-left">体重：{{ personData.weight }}kg</p>
-          <p class="personal-info-left">职业：{{ personData.job }}</p>
-          <p class="personal-info-left">婚姻状况：{{ personData.marry_status }}</p>
+        <div class="avatar-and-name">
+          <HeadPortrait
+            :imgUrl="getAvatarUrl(personData.avatar_url)"
+          ></HeadPortrait>
+          <h2 style="padding-left: 16px">
+            {{ personData.nick_name || "无名客" }}
+          </h2>
+        </div>
+        <p class="personal-info-left">年龄：{{ personData.age }}</p>
+        <p class="personal-info-left">
+          性别：{{ personData.is_boy ? "男" : "女" }}
+        </p>
+        <p class="personal-info-left">身高：{{ personData.height }}cm</p>
+        <p class="personal-info-left">体重：{{ personData.weight }}kg</p>
+        <p class="personal-info-left">职业：{{ personData.job }}</p>
+        <p class="personal-info-left">
+          婚姻状况：{{ personData.marry_status }}
+        </p>
       </div>
       <div class="flex-item">
         <p style="padding-top: 16px">出生地：{{ personData.birth_place }}</p>
@@ -43,6 +58,9 @@
         <p class="long-text-shown">自我介绍：{{ personData.introduction }}</p>
         <p class="long-text-shown">期待的ta：{{ personData.expectation }}</p>
       </div>
+    </div>
+    <div v-else-if="personData.show_type === 0">
+      <h2 class="home-button-left">{{ personData.nick_name || "无名客" }}</h2>
     </div>
     <button class="home-button" @click="goBack">返回</button>
   </div>
@@ -64,7 +82,7 @@ export default {
   },
   mounted() {
     this.personData = this.$route.params.data;
-    console.log("personal data: ", this.personData)
+    console.log("personal data: ", this.personData);
   },
   methods: {
     // 获取头像链接
@@ -128,7 +146,7 @@ export default {
 .avatar-and-name {
   display: flex;
   justify-content: center; /* Align items horizontally to the center */
-  align-items: center; 
+  align-items: center;
 }
 
 .personal-info-left {
@@ -141,7 +159,15 @@ export default {
   word-wrap: break-word; /* Wrap long words onto the next line */
   white-space: pre-line; /* Preserve line breaks and wrap text onto the next line */
 }
-
+.home-button-left {
+  position: absolute;
+  top: 16px;
+  right: 112px;
+  padding: 10px 20px;
+  background-color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
 .home-button {
   position: absolute;
   top: 20px;

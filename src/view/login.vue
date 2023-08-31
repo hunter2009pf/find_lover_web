@@ -58,7 +58,7 @@
 
           <el-form-item>
             <el-button type="primary" @click="register">注册</el-button>
-            <el-button @click="switchForm">登录</el-button>
+            <el-button @click="switchForm">返回</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -67,10 +67,9 @@
 </template>
 
 <script>
-import Vue from "vue";
-import chatIndex from "../view/pages/chatHome/index.vue";
 import { getRegister, login, getMyInfo } from "../api/getData";
 import { ERROR_MESSAGES } from "../api/index";
+
 export default {
   data() {
     return {
