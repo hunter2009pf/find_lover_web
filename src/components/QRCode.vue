@@ -3,7 +3,7 @@
     <div class="qrcode-image">
       <el-image
         :src="generateCompletePhotolUrl()"
-        :fit="cover"
+        fit="cover"
         style="height: 80%"
         alt="QR Code"
       />

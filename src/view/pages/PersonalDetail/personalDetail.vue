@@ -46,7 +46,7 @@
         <div class="card-right">
           <el-empty
             description="期待您上传生活照呦~"
-            v-if="personDetail.photo_urls.length == 0"
+            v-if="personDetail.photo_urls?.length == 0"
           ></el-empty>
           <el-carousel :autoplay="false" v-else>
             <el-carousel-item
@@ -164,6 +164,7 @@ export default {
 }
 .card {
   height: 100%;
+  min-width: 850px;
   width: calc(100vw - 200px);
   margin: 0 auto;
   display: flex;

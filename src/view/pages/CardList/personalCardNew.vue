@@ -37,7 +37,9 @@
     <!--只展示个人文字信息-->
     <div class="show-type-one" v-else-if="personData.show_type == 1">
       <div style="margin-top: 160px">
-        <h3 class="card-title">{{ personData.nick_name }}</h3>
+        <h3 class="card-title" style="height: 100px; margin-top: -90px">
+          {{ personData.nick_name }}
+        </h3>
         <el-divider></el-divider>
         <div class="card-details">
           <div class="describe">
@@ -73,11 +75,20 @@
             <div class="divider"></div>
             <div class="border-wrap"></div>
             <div class="motto-content">
-              <span
-                >自我介绍：{{
+              <p>自我介绍：</p>
+              <p>
+                {{
                   personData.introduction || "这个人很神秘，快来聊天了解他吧~"
-                }}</span
-              >
+                }}
+              </p>
+            </div>
+            <div class="self-content">
+              <p>期待的ta:</p>
+              <p>
+                {{
+                  personData.expectation || "这个人很神秘，快来聊天了解他吧~"
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -120,22 +131,48 @@
         <el-divider></el-divider>
         <div class="card-details">
           <div class="describe">
-            <p><span class="detail-label">年龄:</span> {{ personData.age }}</p>
-            <p>
-              <span class="detail-label">身高:</span>
-              {{ personData.height }}
-            </p>
-
-            <p>
-              <span class="detail-label">职业:</span>
-              {{ personData.job }}
-            </p>
+            <div class="lt-detail">
+              <p>
+                <span class="detail-label">年龄:</span> {{ personData.age }}
+              </p>
+              <p>
+                <span class="detail-label">身高:</span>
+                {{ personData.height }} cm
+              </p>
+              <p>
+                <span class="detail-label">体重:</span>
+                {{ personData.height }} kg
+              </p>
+            </div>
+            <div style="padding-left: 80px" class="rt-detail">
+              <p>
+                <span class="detail-label">学历:</span>
+                {{ personData.degree }}
+              </p>
+              <p>
+                <span class="detail-label">职业:</span>
+                {{ personData.job }}
+              </p>
+              <p>
+                <span class="detail-label">籍贯:</span>
+                {{ personData.birth_place }}
+              </p>
+            </div>
           </div>
           <div class="motto">
             <div class="divider"></div>
             <div class="border-wrap"></div>
             <div class="motto-content">
-              <span>自我介绍：{{ personData.introduction }}</span>
+              <p>自我介绍:</p>
+              <p>{{ personData.introduction }}</p>
+            </div>
+            <div class="self-content">
+              <p>期待的ta:</p>
+              <p>
+                {{
+                  personData.expectation || "这个人很神秘，快来聊天了解他吧~"
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -257,6 +294,7 @@ export default {
   border-radius: 16px;
   background-size: cover;
   background-position: center;
+  position: relative;
 }
 .show-type-one {
   width: 400px;
@@ -340,6 +378,22 @@ export default {
   margin-top: 10px;
   justify-content: space-between;
 }
+.lt-detail {
+  min-width: 120px;
+}
+.lt-detail p {
+  width: 120px;
+}
+.rt-detail {
+  /* width: 120px; */
+}
+.rt-detail p {
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .describe {
   width: 100%;
   flex: 1;
@@ -379,6 +433,31 @@ export default {
   font-size: 14px;
   text-align: left;
   text-overflow: ellipsis;
+  max-height: 92px;
+  overflow: hidden;
+}
+.self-content {
+  padding: 6px;
+  position: absolute;
+  width: 170px;
+  min-height: 80px;
+  top: 0px;
+  right: 0px;
+  border: 3px solid rgb(124, 136, 198);
+  background-color: white;
+  font-size: 14px;
+  text-align: left;
+  text-overflow: ellipsis;
+  max-height: 92px;
+  overflow: hidden;
+}
+.self-content p {
+  width: 100%;
+  word-break: break-all;
+}
+.motto-content p {
+  width: 100%;
+  word-break: break-all;
 }
 .motto {
   width: 100%;

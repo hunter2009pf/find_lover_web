@@ -249,8 +249,8 @@ export default {
   },
 
   beforeDestroy() {
-    console.log(this.socket, "=======");
-    this.socket.close();
+    // console.log(this.socket, "=======");
+    // this.socket.close();
   },
 };
 </script>

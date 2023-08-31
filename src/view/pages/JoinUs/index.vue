@@ -16,7 +16,7 @@
       <h1>合肥红娘</h1>
       <div style="width: 60%; height: 80%; padding-left: 20%">
         <el-carousel :interval="2000" height="1000px" direction="vertical">
-          <el-carousel-item v-for="item in hongniangs" :key="item">
+          <el-carousel-item v-for="item in hongniangs" :key="item.photo_url">
             <QRCode
               :qrcodeSrc="item.photo_url"
               :description="item.description"
