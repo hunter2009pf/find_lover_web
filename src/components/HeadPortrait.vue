@@ -36,11 +36,13 @@ export default {
   },
   methods: {
     openFilePicker() {
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/jpeg image/png image/webp";
-      input.addEventListener("change", this.handleFileSelect);
-      input.click();
+      if (this.canUpload) {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/jpeg image/png image/webp";
+        input.addEventListener("change", this.handleFileSelect);
+        input.click();
+      }
     },
     handleFileSelect(event) {
       const file = event.target.files[0];

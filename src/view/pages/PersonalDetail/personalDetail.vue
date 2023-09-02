@@ -7,7 +7,7 @@
             <div class="base-info">
               <HeadPortrait
                 :imgUrl="getAvatarUrl(personDetail.avatar_url)"
-                :enableUpload="true"
+                :canUpload="true"
                 :diameter="200"
                 @updateAvatarUrl="updateAvatarUrl"
               ></HeadPortrait>
@@ -122,6 +122,10 @@ export default {
     updateAvatarUrl(newAvatarRoute) {
       console.log("new avatar route is ", newAvatarRoute);
       this.personDetail.avatar_url = newAvatarRoute;
+      window.localStorage.setItem(
+        "user_info",
+        JSON.stringify(this.personDetail)
+      );
     },
     getAvatarUrl(route) {
       if (route == "") {
