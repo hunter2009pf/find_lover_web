@@ -64,6 +64,17 @@ export const getMyInfo = () => {
     baseURL: `${baseUrl}/v1/person/getMyInfo`,
   }).then((res) => res.data);
 };
+// 上传头像
+export const uploadAvatar = (params) => {
+  return axios({
+    method: "post",
+    baseURL: `${baseUrl}/v1/person/uploadAvatar`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: params,
+  }).then((res) => res.data);
+};
 // 上传生活照
 export const postPhotos = (params) => {
   return axios({

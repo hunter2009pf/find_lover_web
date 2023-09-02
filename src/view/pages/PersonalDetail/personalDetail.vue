@@ -7,6 +7,9 @@
             <div class="base-info">
               <HeadPortrait
                 :imgUrl="getAvatarUrl(personDetail.avatar_url)"
+                :enableUpload="true"
+                :diameter="200"
+                @updateAvatarUrl="updateAvatarUrl"
               ></HeadPortrait>
               <h2 style="margin-top: 16px">
                 {{ personDetail.nick_name || "无名客" }}
@@ -96,25 +99,6 @@ export default {
       personDetail: {},
       base,
       editing: false, // 编辑表单
-      character: {
-        images: [
-          {
-            id: 1,
-            url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201702%2F16%2F20170216095255_cBu3A.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1693400418&t=67d822ff58b3cfafc0a84ef44b486dfe",
-            alt: "Image 1",
-          },
-          {
-            id: 2,
-            url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201702%2F16%2F20170216095255_cBu3A.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1693400418&t=67d822ff58b3cfafc0a84ef44b486dfe",
-            alt: "Image 2",
-          },
-          {
-            id: 3,
-            url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201702%2F16%2F20170216095255_cBu3A.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1693400418&t=67d822ff58b3cfafc0a84ef44b486dfe",
-            alt: "Image 3",
-          },
-        ],
-      },
     };
   },
 
@@ -134,6 +118,10 @@ export default {
       });
       this.editing = false;
       console.log("is editing mode? ", this.editing);
+    },
+    updateAvatarUrl(newAvatarRoute) {
+      console.log("new avatar route is ", newAvatarRoute);
+      this.personDetail.avatar_url = newAvatarRoute;
     },
     getAvatarUrl(route) {
       if (route == "") {
@@ -178,7 +166,6 @@ export default {
 }
 .base-info {
   flex: 1;
-
   padding: 12px 50px;
 }
 .card-left {
