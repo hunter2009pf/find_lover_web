@@ -128,6 +128,7 @@ export default {
       );
     },
     quit() {
+      localStorage.clear();
       this.$router.replace(
         {
           name: "login",
