@@ -1,4 +1,6 @@
 const { defineConfig } = require("@vue/cli-service");
+const webpack = require("webpack");
+
 module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: "./",
@@ -12,6 +14,23 @@ module.exports = defineConfig({
         pathRewrite: {
           "^/v1": "", // 重写路径，将/api开头的请求去掉/api
         },
+      },
+    },
+  },
+  configureWebpack: {
+    plugins: [
+      // Work around for Buffer is undefined:
+      // https://github.com/webpack/changelog-v5/issues/10
+      new webpack.ProvidePlugin({
+        Buffer: ["buffer", "Buffer"],
+      }),
+    ],
+    resolve: {
+      fallback: {
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+        util: require.resolve("util"),
+        buffer: require.resolve("buffer"),
       },
     },
   },

@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwt from "jwt-simple";
 import { Message } from "element-ui";
 export const ERROR_MESSAGES = {
   0: "成功",
@@ -26,18 +27,43 @@ axios.defaults.timeout = 300000000; //超时时间ms
 axios.defaults.withCredentials = true;
 // 请求时的拦截
 //回调里面不能获取错误信息
+// axios.interceptors.request.use(
+//   function (config) {
+//     const token = localStorage.getItem("token");
+
+//     if (token) {
+//       // 如果存在 token，将其添加到请求头部
+//       config.headers.token = token;
+//     }
+
+//     return config;
+//   },
+//   function (error) {
+//     // 当请求异常时做一些处理
+//     console.log("请求异常：" + JSON.stringify(error));
+//     return Promise.reject(error);
+//   }
+// );
+
+// jwt校验
 axios.interceptors.request.use(
-  function (config) {
-    const token = localStorage.getItem("token");
-
+  (config) => {
+    const token = localStorage.getItem("token"); // Retrieve the JWT token from your storage
     if (token) {
-      // 如果存在 token，将其添加到请求头部
       config.headers.token = token;
-    }
 
+      const timeInSecond = new Date().getTime() / 1000;
+      const secret = "123456pf"; // Secret key
+      const payload = { token: token, expire: timeInSecond }; // Payload data
+
+      const bearerToken = jwt.encode(payload, secret, "HS256");
+      console.log(bearerToken);
+
+      config.headers["Authorization"] = `Bearer ${bearerToken}`; // Attach the token to the request headers
+    }
     return config;
   },
-  function (error) {
+  (error) => {
     // 当请求异常时做一些处理
     console.log("请求异常：" + JSON.stringify(error));
     return Promise.reject(error);
