@@ -104,16 +104,20 @@
               ></el-input-number>
             </el-form-item>
             <el-form-item label="出生地：" prop="birth_place">
-              <el-input
-                v-model="formData.birth_place"
-                maxlength="128"
-              ></el-input>
+              <el-cascader
+                size="large"
+                :options="pcaTextArr"
+                v-model="birthOptions"
+              >
+              </el-cascader>
             </el-form-item>
             <el-form-item label="现居地：" prop="current_place">
-              <el-input
-                v-model="formData.current_place"
-                maxlength="128"
-              ></el-input>
+              <el-cascader
+                size="large"
+                :options="pcaTextArr"
+                v-model="stayOptions"
+              >
+              </el-cascader>
             </el-form-item>
             <el-form-item label="学历：" prop="degree">
               <el-select v-model="formData.degree">
@@ -194,6 +198,7 @@
 <script>
 import base from "../../../api/index";
 import { postPhotos, delPhoto, updateInfo } from "../../../api/getData";
+import { pcaTextArr } from "element-china-area-data";
 
 let baseUrl = base.baseUrl;
 
@@ -205,6 +210,9 @@ export default {
     return {
       showTypeStr: "image", // 根据实际情况设置show_type的初始值
       photoUrls: [],
+      pcaTextArr,
+      birthOptions: [],
+      stayOptions: [],
       formData: {
         nick_name: this.personInfo.nick_name || "",
         is_boy: true,
@@ -282,6 +290,19 @@ export default {
         url: `${baseUrl}${url}`,
       };
     });
+    // 拆分出生地和现居地
+    if (this.personInfo.birth_place != "") {
+      var part0 = this.personInfo.birth_place.split("/");
+      if (part0.length > 1) {
+        this.birthOptions = part0;
+      }
+    }
+    if (this.personInfo.current_place != "") {
+      var part1 = this.personInfo.current_place.split("/");
+      if (part1.length > 1) {
+        this.stayOptions = part1;
+      }
+    }
     console.log("formData: ", this.formData);
   },
   mounted() {
@@ -318,10 +339,24 @@ export default {
         return;
       } else if (this.showTypeStr == "info") {
         this.formData.show_type = 1;
+        // 拼装出生地和现居地
+        if (this.birthOptions.length > 1) {
+          this.formData.birth_place = this.birthOptions.join("/");
+        }
+        if (this.stayOptions.length > 1) {
+          this.formData.current_place = this.stayOptions.join("/");
+        }
       } else {
         this.formData.show_type = 2;
         if (this.photoUrls.length == 0) {
           this.formData.show_type = 1;
+        }
+        // 拼装出生地和现居地
+        if (this.birthOptions.length > 1) {
+          this.formData.birth_place = this.birthOptions.join("/");
+        }
+        if (this.stayOptions.length > 1) {
+          this.formData.current_place = this.stayOptions.join("/");
         }
       }
       this.$refs.form.validate((valid) => {
