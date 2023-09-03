@@ -6,6 +6,9 @@
       class="show-type-zero"
       :style="{ backgroundImage: `url(${photoUrl})` }"
     >
+      <h3 class="card-title" style="height: 100px; margin-top: 40px">
+        {{ personData.nick_name || "无名客" }}
+      </h3>
       <div class="buttons-container">
         <el-button
           size="small"
@@ -38,7 +41,7 @@
     <div class="show-type-one" v-else-if="personData.show_type == 1">
       <div style="margin-top: 160px">
         <h3 class="card-title" style="height: 100px; margin-top: -90px">
-          {{ personData.nick_name }}
+          {{ personData.nick_name || "无名客" }}
         </h3>
         <el-divider></el-divider>
         <div class="card-details">
@@ -127,7 +130,7 @@
         <img :src="photoUrl" alt="人物图片" class="card-image" />
       </div>
       <div>
-        <h3 class="card-title">{{ personData.nick_name }}</h3>
+        <h3 class="card-title">{{ personData.nick_name || "无名客" }}</h3>
         <el-divider></el-divider>
         <div class="card-details">
           <div class="describe">
