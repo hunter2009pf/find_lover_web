@@ -174,18 +174,18 @@
             </el-form-item>
             <el-form-item label="自我介绍：" prop="introduction">
               <el-input
+                :rows="4"
                 v-model="formData.introduction"
                 type="textarea"
                 maxlength="256"
-                autosize="{ minRows: 2, maxRows: 6 }"
               ></el-input>
             </el-form-item>
             <el-form-item label="期望的ta：" prop="expectation">
               <el-input
+                :rows="4"
                 v-model="formData.expectation"
                 type="textarea"
                 maxlength="256"
-                autosize="{ minRows: 2, maxRows: 6 }"
               ></el-input>
             </el-form-item>
           </el-form>
