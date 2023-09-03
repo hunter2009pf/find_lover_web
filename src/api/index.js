@@ -103,9 +103,12 @@ axios.interceptors.response.use(
 const base = {
   axios: axios,
   // baseUrl: 'http://localhost:8080'
-  baseUrl: "http://47.98.116.66:26888",
-  chatUrl: "http://47.98.116.66:26999",
-  chatIP: "47.98.116.66",
+  // baseUrl: "http://47.98.116.66:26888",
+  // chatUrl: "http://47.98.116.66:26999",
+  // chatIP: "47.98.116.66",
+  baseUrl: "http://101.43.69.55:26888",
+  chatUrl: "http://101.43.69.55:26999",
+  chatIP: "101.43.69.55",
   chatPort: "26999",
 };
 
