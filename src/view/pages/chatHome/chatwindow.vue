@@ -2,7 +2,7 @@
   <div class="chat-window">
     <div class="top">
       <div class="info-detail">
-        <div class="chat_name">{{ friendInfo.chat_name }}</div>
+        <div class="chat_name">{{ friendInfo.chat_name || "无名客" }}</div>
       </div>
       <div class="other-fun">
         <span class="iconfont icon-shipin" @click="video"> </span>

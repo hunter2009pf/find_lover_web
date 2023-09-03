@@ -5,12 +5,28 @@
         <div class="card-left">
           <div class="base-detail">
             <div class="base-info">
-              <HeadPortrait
-                :imgUrl="getAvatarUrl(personDetail.avatar_url)"
-                :canUpload="true"
-                :diameter="200"
-                @updateAvatarUrl="updateAvatarUrl"
-              ></HeadPortrait>
+              <div style="flex: 1; display: flex">
+                <HeadPortrait
+                  :imgUrl="getAvatarUrl(personDetail.avatar_url)"
+                  :canUpload="true"
+                  :diameter="200"
+                  @updateAvatarUrl="updateAvatarUrl"
+                ></HeadPortrait>
+                <div style="display: flex; flex-direction: column">
+                  <el-button
+                    type="primary"
+                    style="margin-top: 40px; margin-left: 32px"
+                    @click="showMyIdols"
+                    >我喜欢的</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    style="margin-top: 40px; margin-left: 32px"
+                    @click="showMyFans"
+                    >喜欢我的</el-button
+                  >
+                </div>
+              </div>
               <h2 style="margin-top: 16px">
                 {{ personDetail.nick_name || "无名客" }}
               </h2>
@@ -76,6 +92,13 @@
         :personInfo="personDetail"
       ></editDetailNew>
     </div>
+    <PersonListDialog
+      :title="title"
+      :description="description"
+      :people="people"
+      :isShown="dialogVisible"
+      @closeDialog="closeDialog"
+    ></PersonListDialog>
   </div>
 </template>
 
@@ -84,7 +107,9 @@ import { showType } from "../../../constant/index";
 import { getMyInfo } from "../../../api/getData";
 import base from "../../../api/index";
 import HeadPortrait from "../../../components/HeadPortrait.vue";
+import PersonListDialog from "../../../components/PersonListDialog.vue";
 import editDetailNew from "./editDetailNew.vue";
+import { getMyFans, getMyIdols } from "../../../api/getData";
 
 let baseUrl = base.baseUrl;
 
@@ -92,6 +117,7 @@ export default {
   components: {
     editDetailNew,
     HeadPortrait,
+    PersonListDialog,
   },
   data() {
     return {
@@ -99,6 +125,10 @@ export default {
       personDetail: {},
       base,
       editing: false, // 编辑表单
+      title: "",
+      description: "",
+      people: [], // Replace with your actual fan or idol data
+      dialogVisible: false,
     };
   },
 
@@ -133,6 +163,37 @@ export default {
       } else {
         return baseUrl + route;
       }
+    },
+    showDialog() {
+      console.log("press on the butotn");
+      this.dialogVisible = true;
+    },
+    showMyFans() {
+      const fanParams = { page_number: 1, page_size: 9999 };
+      getMyFans({ ...fanParams }).then((res) => {
+        console.log(res, "===");
+        if (res.code === 0) {
+          this.people = res.data;
+          this.title = "我的粉丝";
+          this.description = "woops, you have no fans.";
+          this.dialogVisible = true;
+        }
+      });
+    },
+    showMyIdols() {
+      const idolParams = { page_number: 1, page_size: 9999 };
+      getMyIdols({ ...idolParams }).then((res) => {
+        console.log(res, "===");
+        if (res.code === 0) {
+          this.people = res.data;
+          this.title = "我的偶像";
+          this.description = "woops, you have no idols.";
+          this.dialogVisible = true;
+        }
+      });
+    },
+    closeDialog() {
+      this.dialogVisible = false;
     },
   },
 

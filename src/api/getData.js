@@ -151,3 +151,11 @@ export const getMyIdols = (params) => {
     params,
   }).then((res) => res.data);
 };
+// 查找喜欢我的
+export const getMyFans = (params) => {
+  return axios({
+    method: "get",
+    baseURL: `${baseUrl}/v1/person/getPaginatedFans`,
+    params,
+  }).then((res) => res.data);
+};

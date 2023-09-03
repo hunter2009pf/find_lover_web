@@ -123,11 +123,15 @@ export default {
             password: this.loginForm.password,
           }).then((res) => {
             console.log(res);
-            if (res.code == 0) {
+            if (res.code === 0) {
               this.$message({
                 message: "登录成功",
                 type: "success",
                 duration: 1000,
+              });
+              this.$store.commit("setData", {
+                key: "user",
+                value: res.data,
               });
               getMyInfo().then((res) => {
                 //存入个人信息
