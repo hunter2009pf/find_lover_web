@@ -170,7 +170,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="微信：" prop="wechat">
-              <el-input v-model="formData.wechat" maxlength="64"></el-input>
+              <el-input v-model="formData.wechat" maxlength="32"></el-input>
             </el-form-item>
             <el-form-item label="自我介绍：" prop="introduction">
               <el-input
