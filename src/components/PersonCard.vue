@@ -1,5 +1,8 @@
 <template>
-  <div class="person-card" :class="{ activeCard: personInfo.id == current }">
+  <div
+    class="person-card"
+    :class="{ activeCard: personInfo.chat_id == current }"
+  >
     <div class="info">
       <HeadPortrait
         :imgUrl="getAvatarUrl(personInfo.chat_avatar)"
