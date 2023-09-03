@@ -67,16 +67,19 @@
             description="期待您上传生活照呦~"
             v-if="personDetail.photo_urls?.length == 0"
           ></el-empty>
-          <el-carousel :autoplay="false" v-else>
+          <el-carousel :autoplay="false" style="height: 640px" v-else>
             <el-carousel-item
+              style="height: 640px"
               v-for="image in personDetail.photo_urls"
               :key="image.id"
             >
-              <img
-                :src="`${base.baseUrl}${image}`"
-                :alt="image.alt"
-                class="carousel-image"
-              />
+              <div class="carousel-item-wrapper">
+                <img
+                  :src="`${base.baseUrl}${image}`"
+                  :alt="image.alt"
+                  class="carousel-image"
+                />
+              </div>
             </el-carousel-item>
           </el-carousel>
           <div class="edit-btn">
@@ -286,5 +289,11 @@ li {
 .long-text-style {
   margin-top: 40px;
   font-size: large;
+}
+.carousel-item-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Adjust the height as needed */
 }
 </style>
