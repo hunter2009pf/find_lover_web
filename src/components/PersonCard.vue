@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="person-card"
-    :class="{ activeCard: personInfo.chat_id == current }"
-  >
+  <div class="person-card" :class="{ activeCard: isActive }">
     <div class="info">
       <HeadPortrait
         :imgUrl="getAvatarUrl(personInfo.chat_avatar)"
@@ -59,19 +56,18 @@ export default {
   },
   data() {
     return {
-      current: "",
+      currentChatId: "",
     };
   },
-  watch: {
-    pcCurrent: function () {
-      this.isActive();
+  created() {
+    this.currentChatId = this.personInfo.chat_id;
+  },
+  computed: {
+    isActive() {
+      return this.pcCurrent == this.currentChatId;
     },
   },
   methods: {
-    isActive() {
-      this.current = this.pcCurrent;
-    },
-
     showHourAndMinute(timeInMilliSecond) {
       console.log(timeInMilliSecond);
       var date = new Date(timeInMilliSecond);
