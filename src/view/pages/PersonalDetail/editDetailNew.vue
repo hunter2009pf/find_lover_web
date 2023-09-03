@@ -53,10 +53,10 @@
           :before-remove="removePhoto"
           accept=".jpg,.jpeg,.png,.webp"
           list-type="picture"
+          :limit="6"
+          :on-exceed="handleExceed"
         >
-          <el-button v-if="photoUrls.length < 6" size="small" type="primary"
-            >点击上传</el-button
-          >
+          <el-button size="small" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">
             只能上传jpg/jpeg/png/webp文件，且不超过5MB
           </div>
@@ -316,6 +316,13 @@ export default {
   },
 
   methods: {
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `The limit is 6 images, you are not allowed to upload the ${
+          files.length + fileList.length
+        }th images.`
+      );
+    },
     cancel() {
       this.$emit("cancelEditing");
     },
