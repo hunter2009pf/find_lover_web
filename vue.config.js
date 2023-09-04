@@ -34,4 +34,10 @@ module.exports = defineConfig({
       },
     },
   },
+  chainWebpack: (config) => {
+    config.plugin("html").tap((args) => {
+      args[0].title = "合肥交友";
+      return args;
+    });
+  },
 });
