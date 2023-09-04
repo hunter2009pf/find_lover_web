@@ -56,7 +56,7 @@
               </p>
               <p>
                 <span class="detail-label">体重:</span>
-                {{ personData.height }} kg
+                {{ personData.weight }} kg
               </p>
             </div>
             <div style="padding-left: 80px">
@@ -144,7 +144,7 @@
               </p>
               <p>
                 <span class="detail-label">体重:</span>
-                {{ personData.height }} kg
+                {{ personData.weight }} kg
               </p>
             </div>
             <div style="padding-left: 80px" class="rt-detail">
