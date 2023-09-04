@@ -16,10 +16,19 @@
 
           <el-form-item label="密码" prop="password">
             <el-input
-              type="password"
+              :type="type"
               v-model="loginForm.password"
               @keyup.enter.native="login"
-            ></el-input>
+              @click="flag = !flag"
+            >
+              <i
+                slot="suffix"
+                class="icon-style"
+                :class="elIcon"
+                autocomplete="auto"
+                @click="flag = !flag"
+              ></i>
+            </el-input>
           </el-form-item>
 
           <el-form-item>
@@ -74,6 +83,7 @@ export default {
   data() {
     return {
       isLogin: true,
+      flag: false,
       loginForm: {
         username: "",
         password: "",
@@ -106,6 +116,16 @@ export default {
       },
     };
   },
+
+  computed: {
+    type() {
+      return this.flag ? "text" : "password";
+    },
+    elIcon() {
+      return this.flag ? "el-icon-minus" : "el-icon-view";
+    },
+  },
+
   methods: {
     switchForm() {
       this.isLogin = !this.isLogin;
@@ -201,6 +221,10 @@ export default {
 };
 </script>
 <style scoped>
+.icon-style {
+  margin-top: 8px;
+  font-size: 18px;
+}
 .login-container {
   display: flex;
   justify-content: center;
