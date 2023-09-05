@@ -6,7 +6,7 @@ import "element-ui/lib/theme-chalk/index.css";
 import router from "./router/index";
 import "./mock/index.js";
 import store from "./store/index.js";
-// import "amfe-flexible";
+import "amfe-flexible";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
