@@ -2,7 +2,7 @@
   <div class="login-container with-background-image">
     <el-card class="login-card">
       <div v-show="isLogin">
-        <h3>登录</h3>
+        <h3 style="font-size: medium">登录</h3>
         <el-form
           ref="loginForm"
           :rules="loginRules"
