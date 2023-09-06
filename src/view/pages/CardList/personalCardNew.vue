@@ -11,7 +11,6 @@
       </h3>
       <div class="buttons-container">
         <el-button
-          size="small"
           class="like-button"
           icon="el-icon-star-off"
           :class="liked ? 'like-status' : ''"
@@ -167,7 +166,7 @@
             <div class="border-wrap"></div>
             <div class="motto-content">
               <p>自我介绍:</p>
-              <p>{{ personData.introduction }}</p>
+              <p>{{ personData.introduction || "过于丰富，无法描述！" }}</p>
             </div>
             <div class="self-content">
               <p>期待的ta:</p>
@@ -288,20 +287,20 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 80%;
   /* background-color: #f5f7fa; */
 }
 .show-type-zero {
-  width: 400px;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   border-radius: 16px;
   background-size: cover;
   background-position: center;
   position: relative;
 }
 .show-type-one {
-  width: 400px;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   padding: 20px;
   border-radius: 16px;
   background-color: #fff;
@@ -314,10 +313,9 @@ export default {
   background-position: center;
   position: relative;
 }
-
 .show-type-two {
-  width: 400px;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   padding: 20px;
   border-radius: 16px;
   background-color: #fff;
@@ -330,16 +328,11 @@ export default {
   background-position: center;
   position: relative;
 }
-
-.card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
 .image-container {
-  height: 185px;
-  width: 185px;
+  height: 240px;
+  width: 240px;
   text-align: center;
-  margin: 0 auto;
+  margin: 64px auto;
 }
 .buttons-container {
   position: absolute;
@@ -360,7 +353,8 @@ export default {
 .details-button {
   margin: 0 10px;
   padding: 0 15px;
-  height: 30px;
+  height: 64px;
+  width: 160px;
 }
 
 .card-image {
@@ -378,20 +372,20 @@ export default {
 
 .card-details {
   height: 100%;
-  margin-top: 10px;
+  margin-top: 8px;
   justify-content: space-between;
 }
 .lt-detail {
   min-width: 120px;
 }
 .lt-detail p {
-  width: 120px;
+  width: 160px;
 }
 .rt-detail {
-  /* width: 120px; */
+  width: 120px;
 }
 .rt-detail p {
-  width: 170px;
+  width: 480px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -406,15 +400,8 @@ export default {
   padding-left: 20px;
 }
 .describe p {
-  margin-bottom: 6px;
-}
-.no-info {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 40px;
+  margin-bottom: 8px;
+  font-size: 24px;
 }
 .border-wrap {
   position: absolute;
@@ -427,8 +414,8 @@ export default {
 .motto-content {
   padding: 6px;
   position: absolute;
-  width: 170px;
-  min-height: 80px;
+  width: 46%;
+  min-height: 320px;
   top: 0px;
   left: 0px;
   border: 3px solid rgb(124, 136, 198);
@@ -442,8 +429,8 @@ export default {
 .self-content {
   padding: 6px;
   position: absolute;
-  width: 170px;
-  min-height: 80px;
+  width: 46%;
+  min-height: 320px;
   top: 0px;
   right: 0px;
   border: 3px solid rgb(124, 136, 198);
@@ -470,24 +457,6 @@ export default {
 
 .detail-label {
   font-weight: bold;
-}
-
-.fade-enter-active,
-.fade-leave-active,
-.slide-enter-active,
-.slide-leave-active {
-  transition: opacity 0.3s, transform 0.3s;
-}
-
-.fade-enter,
-.fade-leave-to,
-.slide-enter,
-.slide-leave-to {
-  opacity: 0;
-}
-
-.slide-enter,
-.slide-leave-to {
-  transform: translateY(20px);
+  font-size: medium;
 }
 </style>

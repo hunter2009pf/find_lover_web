@@ -148,12 +148,13 @@ export default {
 
 <style lang="scss" scoped>
 .person-card {
-  width: 250px;
-  height: 80px;
-  border-radius: 10px;
+  width: 640px;
+  height: 200px;
+  border-radius: 8px;
   background-color: rgb(50, 54, 68);
   position: relative;
-  margin: 25px 0;
+  margin-left: 16px;
+  margin-right: 16px;
   cursor: pointer;
   .info {
     position: absolute;
@@ -164,17 +165,17 @@ export default {
     overflow: hidden;
     display: flex;
     .info-detail {
-      margin-top: 5px;
-      margin-left: 20px;
+      margin-top: 4px;
+      margin-left: 16px;
       .name {
         color: #fff;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        margin-bottom: 5px;
+        margin-bottom: 4px;
       }
       .last-message-bot {
-        max-width: 100px;
+        max-width: 100%;
       }
       .last-message-content {
         display: block;

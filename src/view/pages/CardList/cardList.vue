@@ -5,7 +5,6 @@
       :autoplay="false"
       @change="handleCarouselChange"
       :initial-index="currentIndex"
-      type="card"
     >
       <el-carousel-item
         v-for="person in personData"

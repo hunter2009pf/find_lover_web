@@ -2,12 +2,11 @@
   <div class="login-container with-background-image">
     <el-card class="login-card">
       <div v-show="isLogin">
-        <h3 style="font-size: medium">登录</h3>
+        <h3 style="font-size: 16px">登录</h3>
         <el-form
           ref="loginForm"
           :rules="loginRules"
           :model="loginForm"
-          label-width="80px"
           class="login-form"
         >
           <el-form-item label="用户名" prop="username">
@@ -244,6 +243,6 @@ export default {
 }
 .login-form,
 .register-form {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 </style>
