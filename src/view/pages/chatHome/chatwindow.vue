@@ -396,9 +396,8 @@ export default {
 .chat-window {
   width: 100%;
   height: 100%;
-  margin-left: 20px;
-  position: relative;
-
+  position: absolute;
+  z-index: 10;
   .top {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -410,9 +409,6 @@ export default {
       display: block;
       clear: both;
     }
-    .head-pic {
-      float: left;
-    }
     .info-detail {
       float: left;
       margin: 5px 20px 0;
@@ -420,11 +416,6 @@ export default {
         font-size: 32px;
         font-weight: 600;
         color: #fff;
-      }
-      .detail {
-        color: #9e9e9e;
-        font-size: 12px;
-        margin-top: 2px;
       }
     }
     .other-fun {

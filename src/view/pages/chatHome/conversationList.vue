@@ -5,7 +5,7 @@
         <span class="chat-list-text-style">聊天列表</span>
         <div class="search-wrap">
           <el-autocomplete
-            class="inline-input"
+            style="width: 100%; margin-left: 16px; margin-right: 16px"
             v-model="searchVal"
             :fetch-suggestions="querySearch"
             placeholder="搜索用户"
@@ -255,8 +255,7 @@ export default {
 
 <style lang="scss" scoped>
 .chatHome {
-  // margin-top: 20px;
-  display: flex;
+  position: relative;
   .conversations {
     width: 100%;
     background-color: rgb(50, 54, 68);
@@ -265,7 +264,7 @@ export default {
       margin-top: 40px;
       .chat-list-text-style {
         padding-left: 64px;
-        font-size: 16px;
+        font-size: large;
         color: aquamarine;
       }
       .person-cards-wrapper {
@@ -286,8 +285,8 @@ export default {
   .search-wrap {
     display: flex;
     justify-content: center;
-    width: 80%;
-    margin-top: 20px;
+    width: 100%;
+    margin-top: 16px;
   }
   :deep(.el-input__inner) {
     color: white;
