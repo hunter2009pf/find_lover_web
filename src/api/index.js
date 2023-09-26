@@ -106,9 +106,15 @@ const base = {
   // baseUrl: "http://47.98.116.66:26888",
   // chatUrl: "http://47.98.116.66:26999",
   // chatIP: "47.98.116.66",
-  baseUrl: "http://101.43.69.55:26888",
-  chatUrl: "http://101.43.69.55:26999",
-  chatIP: "101.43.69.55",
+  // 腾讯云IP
+  // baseUrl: "http://101.43.69.55:26888",
+  // chatUrl: "http://101.43.69.55:26999",
+  // chatIP: "101.43.69.55",
+  // chatPort: "26999",
+  // 域名
+  baseUrl: "https://www.hefeilove.top/basev1",
+  chatUrl: "https://www.hefeilove.top/chatv1",
+  chatIP: "www.hefeilove.top",
   chatPort: "26999",
 };
 

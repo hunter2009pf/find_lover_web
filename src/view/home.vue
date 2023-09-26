@@ -53,7 +53,7 @@ export default {
       const token = localStorage.getItem("token");
 
       this.wsSocket = new WebSocket(
-        "ws://" + chatIP + ":" + chatPort + "/v1/websocket/connect/" + token
+        "wss://" + chatIP + "/chatv1/v1/websocket/connect/" + token
       );
 
       this.wsSocket.onopen = function (e) {

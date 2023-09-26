@@ -7,12 +7,22 @@ module.exports = defineConfig({
   devServer: {
     hot: true, //自动保存
     proxy: {
-      "/v1": {
+      "^/chatv1": {
         // target: "http://10.1.201.79:10088", // 代理的目标地址
-        target: "http://47.98.116.66:26888",
+        target: "https://www.hefeilove.top",
         changeOrigin: true, // 是否跨域
+        secure: false,
         pathRewrite: {
-          "^/v1": "", // 重写路径，将/api开头的请求去掉/api
+          "^/chatv1": "", // 重写路径，将/api开头的请求去掉/api
+        },
+      },
+      "^/basev1": {
+        // target: "http://10.1.201.79:10088", // 代理的目标地址
+        target: "https://www.hefeilove.top",
+        changeOrigin: true, // 是否跨域
+        secure: false,
+        pathRewrite: {
+          "^/basev1": "", // 重写路径，将/api开头的请求去掉/api
         },
       },
     },
